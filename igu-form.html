@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
+<html lang="en"><head>
+<!-- BUILD: IGU Builder Production v8.1 FINAL | Muntin Production + corrected print hierarchy --><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Block — Layer (v3, IGDB-backed)</title>
+<title>IGU Builder — Production v8</title>
 <style>
   :root{--ink:#1f1e1d;--muted:#8a8880;--soft:#55534e;--line:#ddd9d0;--fill:#f5f3ee;--bg:#eeece6;--ok:#3b6d11;--blue:#2f6fb5}
   *{box-sizing:border-box}
@@ -72,6 +73,13 @@
   .printAssemblyRow .parMain b{color:var(--ink);font-weight:600}
   .printAssemblyRow .parSub{display:block;color:var(--muted);font-size:8.5px;margin-top:2px}
   .printAssemblyRow .parEnd{font:600 8.8px/1.25 Consolas,monospace;color:var(--soft);white-space:nowrap;padding-top:1px;text-align:right}
+  .printAssemblyRow.cavityRow .parMain{padding-top:0}
+  .printAssemblyRow .cavitySpacer{display:block;color:var(--ink);font-size:11.6px;line-height:1.2;font-weight:800}
+  .printAssemblyRow .cavitySealant{display:block;color:var(--ink);font-size:11.2px;line-height:1.2;font-weight:800;margin-top:2px}
+  .printAssemblyRow .cavitySecondary{display:block;color:var(--muted);font-size:8.35px;line-height:1.3;margin-top:3px}
+  .printAssemblyRow .parNominal{font-weight:750;color:var(--ink)}
+  .printAssemblyRow .parActual{font-size:7.8px;color:var(--muted);font-weight:500}
+  .ptotal .otLabel{font:700 8px/1.1 "Segoe UI",Arial,sans-serif;letter-spacing:.55px;text-transform:uppercase;color:var(--muted);margin-right:4px}
   .pbuild{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;align-items:stretch;align-content:start}
   .pseg{min-width:0;border:1px solid var(--line);border-radius:7px;background:#fbfaf7;padding:7px 8px}
   .pseg.cavity{background:#f6f4ef;border-style:dashed}
@@ -99,6 +107,31 @@
   .stack{display:flex;flex-direction:column;gap:9px}
   .lite,.gap{background:#fff;border:1px solid var(--line);border-radius:11px;padding:10px 13px 12px}
   .gap{background:#faf9f6;border-style:dashed}
+  .muntinbox{margin-top:9px;padding-top:9px;border-top:1px solid #e7e3da}
+  .muntinhead{display:flex;align-items:center;gap:8px;min-height:28px}
+  .muntinhead b{font-size:11.5px;font-weight:650}.muntinhead .mnote{font-size:9.5px;color:var(--muted)}
+  .muntinbody{display:grid;grid-template-columns:minmax(0,1fr) 188px;gap:12px;align-items:start;margin-top:7px}
+  .muntingrid{display:grid;grid-template-columns:minmax(180px,1.5fr) repeat(2,minmax(82px,.55fr));gap:7px}
+  .muntinorient{display:flex;align-items:center;gap:7px;font-size:9.5px;color:var(--muted);margin-top:6px;flex-wrap:wrap}
+  .muntinpreview{border:1px solid var(--line);border-radius:8px;background:#f5f3ee;padding:7px}
+  .muntinpreview .mpanes{display:grid;grid-template-columns:1fr 1fr;gap:6px}.muntinpreview .mpane{text-align:center}
+  .muntinpreview .mpane span{display:block;font-size:7.5px;text-transform:uppercase;letter-spacing:.55px;color:var(--muted);margin-bottom:3px}
+  .muntinpreview svg{width:100%;height:86px;display:block}.muntinsummary{font-size:9px;color:var(--muted);line-height:1.35;margin-top:5px}
+  @media(max-width:900px){.muntinbody{grid-template-columns:1fr}.muntingrid{grid-template-columns:1fr 1fr}.muntingrid>div:first-child{grid-column:1/-1}.muntinpreview{max-width:260px}}
+  .mprodBtn{border:1px solid #cfcac0;background:#fff;border-radius:7px;padding:5px 7px;font-size:9.5px;white-space:nowrap}
+  .mprodBtn:hover{border-color:#77746e;background:#faf9f6}.mprodBtn.off{opacity:.35;pointer-events:none}
+  .mprodOverlay{position:fixed;inset:0;z-index:120;background:rgba(31,30,29,.42);display:flex;align-items:center;justify-content:center;padding:18px}
+  .mprodOverlay.hidden{display:none}.mprodModal{width:min(1180px,98vw);max-height:94vh;overflow:auto;background:#f7f5f0;border:1px solid #cfcac0;border-radius:14px;box-shadow:0 30px 90px rgba(0,0,0,.25)}
+  .mprodTop{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:12px;padding:13px 15px;background:#fff;border-bottom:1px solid var(--line)}
+  .mprodTop h3{margin:0;font-size:16px}.mprodMeta{font-size:10px;color:var(--muted)}.mprodClose{margin-left:auto;border:0;background:none;font-size:23px;color:var(--muted)}
+  .mprodBody{display:grid;grid-template-columns:320px minmax(0,1fr);gap:14px;padding:14px}.mprodControls,.mprodDrawing{background:#fff;border:1px solid var(--line);border-radius:11px;padding:12px}
+  .mprodGroup{padding:10px 0;border-bottom:1px solid #ece8df}.mprodGroup:first-child{padding-top:0}.mprodGroup:last-child{border-bottom:0}.mprodGroupTitle{font-size:9px;letter-spacing:.7px;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+  .mprodRow{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:7px}.mprodRow.one{grid-template-columns:1fr}.mprodControls input,.mprodControls select{width:100%;padding:7px 8px;border:1px solid var(--line);border-radius:7px;background:#fff;outline:none}.mprodControls input:focus,.mprodControls select:focus{border-color:#77746e}
+  .mprodActions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.mprodActions button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:7px 9px}.mprodActions button.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .mprodWarn{font-size:9.5px;line-height:1.4;color:#8a5d1d;background:#fff7e8;border:1px solid #ead4a7;border-radius:7px;padding:7px 8px;margin-top:8px}.mprodError{color:var(--bad);background:#fff0ed;border-color:#e8b8ae}
+  .mprodDrawing svg{display:block;width:100%;height:auto;min-height:430px;background:#fff}.mprodBom{margin-top:10px;border-top:1px solid var(--line);padding-top:9px;font-size:10px}.mprodBom table{width:100%;border-collapse:collapse}.mprodBom th,.mprodBom td{padding:5px 6px;border-bottom:1px solid #ece9e2;text-align:left}.mprodBom th{font-size:8.5px;text-transform:uppercase;color:var(--muted)}
+  @media(max-width:900px){.mprodBody{grid-template-columns:1fr}.mprodDrawing svg{min-height:320px}}
+  @media print{.mprodOverlay{display:none!important}}
   .lh{display:flex;align-items:center;gap:9px;margin-bottom:8px;flex-wrap:wrap;row-gap:6px;user-select:none}
   .chev{color:var(--muted);font-size:11px;width:10px;display:inline-block}
   .litesum{font-size:11.5px;color:var(--soft);cursor:pointer;padding:2px 0 4px;line-height:1.5}
@@ -408,19 +441,20 @@
 
 
 <style>
+  .buildTag{display:inline-flex;align-items:center;margin-left:8px;padding:2px 6px;border:1px solid #d8d5cc;border-radius:5px;font:700 9px/1 Consolas,monospace;color:#77746e;background:#fff;vertical-align:middle}
   .backlink{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:12px;
     text-decoration:none;color:#55534e;border:1px solid #d8d5cc;background:#fff;
     border-radius:6px;padding:6px 12px;white-space:nowrap}
   .backlink:hover{border-color:#1f1e1d;color:#1f1e1d}
   .backlink:focus-visible{outline:2px solid #1f1e1d;outline-offset:2px}
-  @media print{.backlink{display:none !important}}
+  @media print{.backlink,.buildTag{display:none !important}}
 </style>
-</head><body><div class="wrap">
+</head><body><script>window.IGU_BUILD="v8.1-print-final";</script><div class="wrap">
 
 <div class="topbar nopr">
   <div class="brandlock">
     <div class="eyebrow">Production specification builder</div>
-    <h1>IGU Order Specification</h1>
+    <h1>IGU Order Specification <span class="buildTag">v8.1</span></h1>
     <div class="sub">Build glazing make-ups first, then enter line quantities and dimensions. Surface numbering runs exterior → interior.</div>
   </div>
   <div class="topactions">
@@ -503,7 +537,7 @@
     <table><thead><tr>
       <th style="width:5%">Line</th><th style="width:6%">M-U</th><th style="width:17%">Mark</th>
       <th style="width:8%">Qty</th><th style="width:24%">Width</th><th style="width:24%">Height</th>
-      <th style="width:12%">Sq-ft</th><th style="width:4%" class="nopr"></th>
+      <th style="width:10%">Sq-ft</th><th style="width:10%" class="nopr">Production</th>
     </tr></thead><tbody id="rows"></tbody></table>
     <div id="tot" class="tot"></div>
     <div class="nopr gridbar">
@@ -567,6 +601,26 @@ var FRIT=["2 x 2 square","4 x 4 square","2 x 4 diamond","Custom \u2014 see silk 
 var FRITCOLOR=["White","Acid Etched"];
 var CATS=[["lowe","Low-E coating"],["refl","Reflective coating"],["frit","Frit"],
           ["uncoated","Uncoated"]];
+
+/* Muntin / grille-between-glass catalog. Cloud settings.muntinBars may override these defaults. */
+var MUNTIN_DEFAULTS=[
+ {id:"mb058_white",label:'White 5/8″ × 1/4″',faceWidthIn:0.625,depthIn:0.25,exteriorColor:"White",interiorColor:"White",exteriorHex:"#f4f2eb",interiorHex:"#f4f2eb",enabled:true},
+ {id:"mb058_black",label:'Black 5/8″ × 1/4″',faceWidthIn:0.625,depthIn:0.25,exteriorColor:"Black",interiorColor:"Black",exteriorHex:"#202020",interiorHex:"#202020",enabled:true},
+ {id:"mb058_black_white",label:'Black / White 5/8″ × 1/4″',faceWidthIn:0.625,depthIn:0.25,exteriorColor:"Black",interiorColor:"White",exteriorHex:"#202020",interiorHex:"#f4f2eb",enabled:true},
+ {id:"mb100_black",label:'Black 1″ × 1/4″',faceWidthIn:1,depthIn:0.25,exteriorColor:"Black",interiorColor:"Black",exteriorHex:"#202020",interiorHex:"#202020",enabled:true}
+];
+function normalizeMuntinProduct(P){
+ P=P||{};
+ return {id:String(P.id||P.code||""),label:String(P.label||P.name||P.id||"Muntin bar"),
+  faceWidthIn:isFinite(+P.faceWidthIn)?+P.faceWidthIn:(isFinite(+P.faceWidth)?+P.faceWidth:0.625),
+  depthIn:isFinite(+P.depthIn)?+P.depthIn:(isFinite(+P.depth)?+P.depth:0.25),
+  exteriorColor:String(P.exteriorColor||"Black"),interiorColor:String(P.interiorColor||P.exteriorColor||"Black"),
+  exteriorHex:String(P.exteriorHex||(/^white$/i.test(P.exteriorColor||"")?"#f4f2eb":"#202020")),
+  interiorHex:String(P.interiorHex||(/^white$/i.test(P.interiorColor||P.exteriorColor||"")?"#f4f2eb":"#202020")),
+  enabled:P.enabled!==false};
+}
+var MUNTIN_BARS=MUNTIN_DEFAULTS.map(normalizeMuntinProduct);
+
 
 function mfrThicknesses(mfr){var a=[];ITEMS.forEach(function(x){if(x.b===mfr)x.t.forEach(function(t){if(a.indexOf(t)<0)a.push(t);});});return a.sort(function(x,y){return x-y;});}
 function glassBlock(L,title,mfrKey,mfrVal,tKey,tVal,lblKey,lblVal){
@@ -649,19 +703,129 @@ function coatKind(name){
 function opt(list,cur,fmt){var o="";for(var i=0;i<list.length;i++){var x=list[i],lb=fmt?fmt(x):x;
   o+='<option value="'+esc(x)+'"'+(String(x)===String(cur)?' selected':'')+'>'+esc(lb)+'</option>';}return o;}
 
-/* ---------------- state ---------------- */
-var seq=0;
-function newLite(pos){seq++;return{id:"L"+seq,pos:pos,kind:"vision",mfr:"Vitro",bmfr:"Vitro",g1mfr:"Vitro",g2mfr:"Vitro",cat:"uncoated",lbl:"Clear",coatSurf:0,fritGlass:"Clear",fritPat:"2 x 2 square",fritColor:"White",fritSurf:1,t:6,heat:"Annealed",
-  lam:false,g1:"Clear",p1:6,g2:"Clear",p2:6,il:{brand:"EVA",th:0.76,gr:"Clear"},
-  paint:PAINT[0].n,pside:2,trs:[]};}
-function newGap(){return{sp:"BWE",w:"1/2",gas:"Argon 90%",seal:"PIB + Polysulfide"};}
+/* ---------------- state / IGU Data Model v2 ----------------
+   Runtime remains backward-compatible with the original Builder API.
+   Canonical v2 terminology is lites[] + cavities[]. Legacy mu.gaps is a
+   non-enumerable alias, so existing rendering/calculation code keeps working
+   while future saved make-ups serialize the cleaner cavities[] structure. */
+var IGU_MODEL_VERSION=2, seq=0, entitySeq=0;
+function entityId(prefix){
+  entitySeq++;
+  if(typeof crypto!=="undefined"&&crypto.randomUUID){return prefix+"_"+crypto.randomUUID();}
+  return prefix+"_"+Date.now().toString(36)+"_"+entitySeq.toString(36)+"_"+Math.random().toString(36).slice(2,8);
+}
+function glassIdFor(mfr,lbl){
+  var fallback="",matches=0;
+  for(var i=0;i<ITEMS.length;i++)if(ITEMS[i].lbl===lbl){
+    matches++;fallback=ITEMS[i].id||fallback;
+    if(mfr&&ITEMS[i].b===mfr)return ITEMS[i].id||"";
+  }
+  return matches===1?fallback:"";
+}
+function syncLiteCatalogRefs(L,force){
+  if(!L)return L;
+  var baseMfr=L.kind==="spandrel"?(L.bmfr||L.mfr):L.mfr;
+  var a=glassIdFor(baseMfr,L.lbl),b=glassIdFor(L.g1mfr,L.g1),c=glassIdFor(L.g2mfr,L.g2);
+  if(force||!L.glassId)L.glassId=a;
+  if(force||!L.g1Id)L.g1Id=b;
+  if(force||!L.g2Id)L.g2Id=c;
+  return L;
+}
+function normalizeLiteModel(L){
+  L=L||{};
+  if(!L.id)L.id=entityId("lite");
+  return syncLiteCatalogRefs(L,false);
+}
+function muntinProduct(id){
+  for(var i=0;i<MUNTIN_BARS.length;i++)if(MUNTIN_BARS[i].id===id&&MUNTIN_BARS[i].enabled!==false)return MUNTIN_BARS[i];
+  for(i=0;i<MUNTIN_BARS.length;i++)if(MUNTIN_BARS[i].enabled!==false)return MUNTIN_BARS[i];
+  return normalizeMuntinProduct(MUNTIN_DEFAULTS[1]);
+}
+function clampBars(v){v=parseInt(v,10);return isFinite(v)?Math.max(0,Math.min(12,v)):0;}
+function inchLabel(v){v=+v;if(Math.abs(v-0.625)<.0001)return "5/8";if(Math.abs(v-0.25)<.0001)return "1/4";if(Math.abs(v-1)<.0001)return "1";return String(v);}
+function normalizeMuntinModel(M){
+  M=M||{};
+  if(M.enabled==null)M.enabled=false; else M.enabled=!!M.enabled;
+  if(!M.productId)M.productId="mb058_black";
+  if(!M.layout||typeof M.layout!=="object")M.layout={};
+  if(!M.layout.type)M.layout.type="grid";
+  M.layout.verticalBars=clampBars(M.layout.verticalBars==null?1:M.layout.verticalBars);
+  M.layout.horizontalBars=clampBars(M.layout.horizontalBars==null?1:M.layout.horizontalBars);
+  if(!M.production||typeof M.production!=="object")M.production={};
+  if(M.production.mode!=="custom")M.production.mode="equal";
+  if(!isFinite(+M.production.edgeInsetX))M.production.edgeInsetX=0.4375; else M.production.edgeInsetX=Math.max(0,+M.production.edgeInsetX);
+  if(!isFinite(+M.production.edgeInsetY))M.production.edgeInsetY=0.4375; else M.production.edgeInsetY=Math.max(0,+M.production.edgeInsetY);
+  if(!isFinite(+M.production.endClearance))M.production.endClearance=0; else M.production.endClearance=Math.max(0,+M.production.endClearance);
+  if(!Array.isArray(M.production.verticalPositions))M.production.verticalPositions=[];
+  if(!Array.isArray(M.production.horizontalPositions))M.production.horizontalPositions=[];
+  M.flipped=!!M.flipped;
+  return M;
+}
+function muntinColors(M){
+  M=normalizeMuntinModel(M);var P=muntinProduct(M.productId);
+  var ext={name:P.exteriorColor,hex:P.exteriorHex},inn={name:P.interiorColor,hex:P.interiorHex};
+  if(M.flipped){var t=ext;ext=inn;inn=t;}
+  return {exterior:ext,interior:inn};
+}
+function muntinSummary(M){
+  M=normalizeMuntinModel(M);if(!M.enabled)return "";
+  var P=muntinProduct(M.productId),C=muntinColors(M),lay=M.layout;
+  var side=(C.exterior.name===C.interior.name)?"":("Exterior "+C.exterior.name+" / Interior "+C.interior.name);
+  return P.label+(side?(" · "+side):"")+" · "+lay.verticalBars+"V × "+lay.horizontalBars+"H";
+}
+function normalizeCavityModel(G){
+  G=G||{};
+  if(!G.id)G.id=entityId("cavity");
+  if(G.sp==null)G.sp="BWE";
+  if(G.w==null)G.w="1/2";
+  if(G.gas==null)G.gas="Argon 90%";
+  if(G.seal==null)G.seal="PIB + Polysulfide";
+  G.muntin=normalizeMuntinModel(G.muntin);
+  return G;
+}
+function attachLegacyGapAlias(mu){
+  if(!mu)return mu;
+  if(!Array.isArray(mu.cavities))mu.cavities=Array.isArray(mu.gaps)?mu.gaps:[];
+  for(var i=0;i<mu.cavities.length;i++)mu.cavities[i]=normalizeCavityModel(mu.cavities[i]);
+  try{
+    var d=Object.getOwnPropertyDescriptor(mu,"gaps");
+    if(!d||!d.get){
+      try{delete mu.gaps;}catch(e){}
+      Object.defineProperty(mu,"gaps",{configurable:true,enumerable:false,
+        get:function(){return this.cavities;},
+        set:function(v){this.cavities=Array.isArray(v)?v:[];}});
+    }
+  }catch(e){mu.gaps=mu.cavities;}
+  return mu;
+}
+function normalizeMUModel(mu){
+  mu=mu||{};
+  mu.schemaVersion=IGU_MODEL_VERSION;
+  if(!mu.id)mu.id=entityId("mu");
+  if(typeof mu.name!=="string")mu.name="";
+  if(typeof mu.lines!=="string")mu.lines=String(mu.lines||"");
+  if(!Array.isArray(mu.lites))mu.lites=[];
+  for(var i=0;i<mu.lites.length;i++)mu.lites[i]=normalizeLiteModel(mu.lites[i]);
+  if(mu.openLite==null)mu.openLite=0;
+  return attachLegacyGapAlias(mu);
+}
+function newLite(pos){
+  seq++;
+  return normalizeLiteModel({id:entityId("lite"),pos:pos,kind:"vision",mfr:"Vitro",bmfr:"Vitro",g1mfr:"Vitro",g2mfr:"Vitro",cat:"uncoated",lbl:"Clear",coatSurf:0,fritGlass:"Clear",fritPat:"2 x 2 square",fritColor:"White",fritSurf:1,t:6,heat:"Annealed",
+    lam:false,g1:"Clear",p1:6,g2:"Clear",p2:6,il:{brand:"EVA",th:0.76,gr:"Clear"},
+    paint:PAINT[0].n,pside:2,trs:[]});
+}
+function newGap(){return normalizeCavityModel({id:entityId("cavity"),sp:"BWE",w:"1/2",gas:"Argon 90%",seal:"PIB + Polysulfide",muntin:{enabled:false,productId:"mb058_black",layout:{type:"grid",verticalBars:1,horizontalBars:1},production:{mode:"equal",edgeInsetX:0.4375,edgeInsetY:0.4375,endClearance:0,verticalPositions:[],horizontalPositions:[]},flipped:false}});}
 var CONFIG=2;
-function newMU(lines){return{lines:lines||"",lites:[newLite("Outside"),newLite("Inside")],gaps:[newGap()],openLite:0};}
+function newMU(lines){
+  return normalizeMUModel({id:entityId("mu"),name:"",schemaVersion:IGU_MODEL_VERSION,lines:lines||"",
+    lites:[newLite("Outside"),newLite("Inside")],cavities:[newGap()],openLite:0});
+}
 var mus=[newMU("")], cur=0;
 var LITES=mus[cur].lites, GAPS=mus[cur].gaps;
 function letter(i){return String.fromCharCode(65+i);}
 var MUCOL=["#1f1e1d","#b9660f","#2f6fb5","#3b6d11","#8c3fb0"];
-function selectMU(i){cur=i;LITES=mus[cur].lites;GAPS=mus[cur].gaps;CONFIG=LITES.length;sel="";renderAll();}
+function selectMU(i){mus[i]=normalizeMUModel(mus[i]);cur=i;LITES=mus[cur].lites;GAPS=mus[cur].gaps;CONFIG=LITES.length;sel="";renderAll();}
 function toggleLite(li){mus[cur].openLite=(mus[cur].openLite===li?-1:li);renderAll();}
 function addMU(){mus.push(newMU(""));cur=mus.length-1;LITES=mus[cur].lites;GAPS=mus[cur].gaps;CONFIG=LITES.length;sel="";renderAll();}
 function delMU(i){if(i===0)return;mus.splice(i,1);if(cur>=mus.length)cur=mus.length-1;LITES=mus[cur].lites;GAPS=mus[cur].gaps;CONFIG=LITES.length;sel="";renderAll();}
@@ -685,6 +849,7 @@ function setMULines(i,v){
     mw.className="muwarn"+(msg?" on":"");
   }
   // Refresh only the line assignment badges/counts, preserving this input.
+  syncOrderAssignments();
   rowsHTML();
 }
 function parseLineSpec(str){
@@ -759,12 +924,197 @@ function setL(key,k,v){
   else if(k==="t"||k==="p1"||k==="p2"||k==="pside"||k==="fritSurf"||k==="coatSurf") L[k]=+v;
   else L[k]=v;
   if(L.kind==="vision"&&!L.lam) fixVision(L);
+  syncLiteCatalogRefs(L,true);
   renderAll();
 }
 function setIL(key,k,v){var L=LITES[idx(key)],il=L.il; il[k]=(k==="th")?+v:v;
   var B=IL_BRAND[il.brand]; if(B.th.indexOf(il.th)<0)il.th=B.th[0]; if(B.gr.indexOf(il.gr)<0)il.gr=B.gr[0];
   renderAll();}
-function setG(i,k,v){GAPS[i][k]=v; if(k==="sp"){var S=spacerOf(v); if(S.s.indexOf(GAPS[i].w)<0)GAPS[i].w=S.s[0];} renderAll();}
+function setG(i,k,v){GAPS[i]=normalizeCavityModel(GAPS[i]);GAPS[i][k]=v; if(k==="sp"){var S=spacerOf(v); if(S.s.indexOf(GAPS[i].w)<0)GAPS[i].w=S.s[0];} renderAll();}
+function setMuntin(i,k,v){
+  GAPS[i]=normalizeCavityModel(GAPS[i]);var M=GAPS[i].muntin;
+  if(k==="enabled")M.enabled=!!v; else if(k==="flipped")M.flipped=!!v; else M[k]=v;
+  renderAll();
+}
+function setMuntinLayout(i,k,v){GAPS[i]=normalizeCavityModel(GAPS[i]);GAPS[i].muntin.layout[k]=clampBars(v);renderAll();}
+function barCountOptions(cur){var a=[];for(var i=0;i<=12;i++)a.push('<option value="'+i+'"'+(i===+cur?' selected':'')+'>'+i+'</option>');return a.join("");}
+function muntinLineSVG(x1,y1,x2,y2,w,col){
+  return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="#8d8880" stroke-width="'+(w+1.4).toFixed(1)+'" stroke-linecap="square"/>'
+    +'<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" stroke="'+col+'" stroke-width="'+w.toFixed(1)+'" stroke-linecap="square"/>';
+}
+function muntinElevationSVG(G,side){
+  G=normalizeCavityModel(G);var M=G.muntin,P=muntinProduct(M.productId),C=muntinColors(M),col=(side==="interior"?C.interior.hex:C.exterior.hex);
+  var W=72,H=96,p=7,iw=W-2*p,ih=H-2*p,sw=Math.max(2.2,Math.min(6,P.faceWidthIn*5));
+  var o='<rect x="'+p+'" y="'+p+'" width="'+iw+'" height="'+ih+'" rx="1" fill="#eaf0ef" stroke="#8d8880" stroke-width="1"/>';
+  if(M.enabled){
+    for(var v=0;v<M.layout.verticalBars;v++){var x=p+(v+1)*iw/(M.layout.verticalBars+1);o+=muntinLineSVG(x,p,x,p+ih,sw,col);}
+    for(var h=0;h<M.layout.horizontalBars;h++){var y=p+(h+1)*ih/(M.layout.horizontalBars+1);o+=muntinLineSVG(p,y,p+iw,y,sw,col);}
+  }
+  return '<svg viewBox="0 0 '+W+' '+H+'" aria-label="Muntin '+side+' preview">'+o+'</svg>';
+}
+function muntinPreviewHTML(G){
+  var M=normalizeMuntinModel(G.muntin);if(!M.enabled)return '';var P=muntinProduct(M.productId),C=muntinColors(M);
+  return '<div class="muntinpreview"><div class="mpanes"><div class="mpane"><span>Exterior · '+esc(C.exterior.name)+'</span>'+muntinElevationSVG(G,"exterior")+'</div>'
+    +'<div class="mpane"><span>Interior · '+esc(C.interior.name)+'</span>'+muntinElevationSVG(G,"interior")+'</div></div>'
+    +'<div class="muntinsummary">'+esc(inchLabel(P.faceWidthIn))+'″ face × '+esc(inchLabel(P.depthIn))+'″ depth · '+M.layout.verticalBars+' vertical / '+M.layout.horizontalBars+' horizontal</div></div>';
+}
+function cavityHTML(G,i){
+  G=normalizeCavityModel(G);var so="",M=G.muntin,P=muntinProduct(M.productId),C=muntinColors(M);
+  for(var k=0;k<SPACER.length;k++)so+='<option value="'+SPACER[k].c+'"'+(SPACER[k].c===G.sp?' selected':'')+'>'+SPACER[k].c+' — '+SPACER[k].n+'</option>';
+  var po=MUNTIN_BARS.filter(function(x){return x.enabled!==false;}).map(function(x){return '<option value="'+esc(x.id)+'"'+(x.id===M.productId?' selected':'')+'>'+esc(x.label)+'</option>';}).join('');
+  var h='<div class="gap"><div class="lh"><span class="t">Cavity '+(i+1)+'</span><span style="flex:1"></span><span class="mm">'+cavityMM(G.w).toFixed(1)+' mm</span></div>'
+    +'<div class="row"><div><div class="lbl">Width</div><select onchange="setG('+i+',\'w\',this.value)">'+opt(spacerOf(G.sp).s,G.w,function(x){return x+'″';})+'</select></div>'
+    +'<div><div class="lbl">Spacer</div><select onchange="setG('+i+',\'sp\',this.value)">'+so+'</select></div>'
+    +'<div><div class="lbl">Gas</div><select onchange="setG('+i+',\'gas\',this.value)">'+opt(GAS,G.gas)+'</select></div>'
+    +'<div><div class="lbl">Sealant</div><select onchange="setG('+i+',\'seal\',this.value)">'+opt(SEAL,G.seal)+'</select></div></div>'
+    +'<div class="muntinbox"><div class="muntinhead"><label style="display:flex;align-items:center;gap:7px;cursor:pointer"><input type="checkbox" '+(M.enabled?'checked':'')+' onchange="setMuntin('+i+',\'enabled\',this.checked)" style="accent-color:#1f1e1d"><b>Muntin bar (GBG)</b></label><span class="mnote">inside this cavity</span></div>';
+  if(M.enabled){
+    h+='<div class="muntinbody"><div><div class="muntingrid">'
+      +'<div><div class="lbl">Profile / colour</div><select onchange="setMuntin('+i+',\'productId\',this.value)">'+po+'</select></div>'
+      +'<div><div class="lbl">Vertical bars</div><select onchange="setMuntinLayout('+i+',\'verticalBars\',this.value)">'+barCountOptions(M.layout.verticalBars)+'</select></div>'
+      +'<div><div class="lbl">Horizontal bars</div><select onchange="setMuntinLayout('+i+',\'horizontalBars\',this.value)">'+barCountOptions(M.layout.horizontalBars)+'</select></div></div>'
+      +'<div class="muntinorient"><span>'+esc(inchLabel(P.faceWidthIn))+'″ face × '+esc(inchLabel(P.depthIn))+'″ depth</span><span>·</span><span>Exterior: <b>'+esc(C.exterior.name)+'</b></span><span>Interior: <b>'+esc(C.interior.name)+'</b></span>';
+    if(P.exteriorColor!==P.interiorColor)h+='<button class="mini" type="button" onclick="setMuntin('+i+',\'flipped\','+(!M.flipped)+')">Flip exterior / interior</button>';
+    h+='</div></div>'+muntinPreviewHTML(G)+'</div>';
+  }
+  return h+'</div></div>';
+}
+
+
+/* ---------------- muntin production constructor ---------------- */
+var MPROD={line:-1,cavity:0};
+var MUNTIN_FRACTION_STEP=1/16;
+function snapMuntinFraction(v){return Math.round((+v||0)/MUNTIN_FRACTION_STEP)*MUNTIN_FRACTION_STEP;}
+function frac64(v){
+  // Production muntin dimensions are intentionally resolved to 1/16 in.
+  v=snapMuntinFraction(v);var whole=Math.floor(v+1e-9),n=Math.round((v-whole)*16);if(n===16){whole++;n=0;}
+  if(!n)return String(whole);var a=n,b=16;while(b){var t=a%b;a=b;b=t;}n/=a;var d=16/a;
+  return (whole?whole+' ':'')+n+'/'+d;
+}
+function dimIn(v){return frac64(v)+'″';}
+function currentLineMU(lineIndex){var mi=muOfLine(lineIndex+1);return {index:mi,mu:normalizeMUModel(mus[mi])};}
+function muntinCavityIndexes(mu){var a=[];for(var i=0;i<mu.gaps.length;i++)if(normalizeCavityModel(mu.gaps[i]).muntin.enabled)a.push(i);return a;}
+function openMuntinProduction(lineIndex,cavityIndex){
+  var S=normalizeOrderLine(sizes[lineIndex]),pair=currentLineMU(lineIndex),arr=muntinCavityIndexes(pair.mu);
+  if(!inch(S.w)||!inch(S.h)){alert('Enter Width and Height for this order line first.');return;}
+  if(!arr.length){alert('This make-up has no enabled muntin bar.');return;}
+  MPROD.line=lineIndex;MPROD.cavity=(cavityIndex!=null&&arr.indexOf(cavityIndex)>=0)?cavityIndex:arr[0];
+  document.getElementById('mprodOverlay').classList.remove('hidden');renderMuntinProduction();
+}
+function closeMuntinProduction(){document.getElementById('mprodOverlay').classList.add('hidden');MPROD.line=-1;}
+function mpModel(){var pair=currentLineMU(MPROD.line),G=normalizeCavityModel(pair.mu.gaps[MPROD.cavity]);return {pair:pair,G:G,M:G.muntin,S:normalizeOrderLine(sizes[MPROD.line])};}
+function parsePosList(t,max,count){
+  var vals=String(t||'').split(/[,;]+/).map(function(x){return inch(x.trim());}).filter(function(x){return isFinite(x)&&x>0&&x<max;});
+  vals.sort(function(a,b){return a-b;});if(count!=null)vals=vals.slice(0,count);return vals;
+}
+function equalClearPositions(count,span,inset,face){
+  var a=[],clear=(span-2*inset-count*face)/(count+1);if(clear<0)return {positions:a,clear:0};
+  // Snap the actual bar centerlines to the shop's 1/16 in grid. The residual is
+  // therefore distributed across DLOs instead of being hidden by label rounding.
+  for(var i=0;i<count;i++)a.push(snapMuntinFraction(inset+clear*(i+1)+face*(i+.5)));
+  return {positions:a,clear:clear};
+}
+function openingSpans(positions,span,inset,face){
+  var edges=[inset],i;
+  for(i=0;i<positions.length;i++){edges.push(positions[i]-face/2);edges.push(positions[i]+face/2);}
+  edges.push(span-inset);
+  var out=[];for(i=0;i<edges.length-1;i+=2)out.push({a:edges[i],b:edges[i+1],size:Math.max(0,edges[i+1]-edges[i])});
+  return out;
+}
+function barEdgeRefs(positions,face){return positions.map(function(c){return {near:c-face/2,far:c+face/2};});}
+function productionGeometry(M,W,H){
+  M=normalizeMuntinModel(M);var P=M.production,MP=muntinProduct(M.productId),face=Math.max(0,+MP.faceWidthIn||0),ix=Math.max(0,+P.edgeInsetX||0),iy=Math.max(0,+P.edgeInsetY||0),ec=Math.max(0,+P.endClearance||0);
+  var eqV=equalClearPositions(M.layout.verticalBars,W,ix,face),eqH=equalClearPositions(M.layout.horizontalBars,H,iy,face);
+  var v=P.mode==='custom'?P.verticalPositions.slice(0,M.layout.verticalBars):eqV.positions.slice();
+  var h=P.mode==='custom'?P.horizontalPositions.slice(0,M.layout.horizontalBars):eqH.positions.slice();
+  if(P.mode==='custom'){
+    while(v.length<M.layout.verticalBars)v.push(eqV.positions[v.length]||W/2);
+    while(h.length<M.layout.horizontalBars)h.push(eqH.positions[h.length]||H/2);
+  }
+  v=v.map(function(x){return snapMuntinFraction(Math.max(ix+face/2,Math.min(W-ix-face/2,+x||0)));}).sort(function(a,b){return a-b;});
+  h=h.map(function(y){return snapMuntinFraction(Math.max(iy+face/2,Math.min(H-iy-face/2,+y||0)));}).sort(function(a,b){return a-b;});
+  var openX=openingSpans(v,W,ix,face),openY=openingSpans(h,H,iy,face);
+  return {W:W,H:H,ix:ix,iy:iy,ec:ec,face:face,v:v,h:h,openX:openX,openY:openY,vEdges:barEdgeRefs(v,face),hEdges:barEdgeRefs(h,face),clearX:eqV.clear,clearY:eqH.clear,verticalCut:snapMuntinFraction(Math.max(0,H-2*iy-2*ec)),horizontalCut:snapMuntinFraction(Math.max(0,W-2*ix-2*ec))};
+}
+function setMProd(k,v){var x=mpModel(),P=x.M.production;if(k==='mode')P.mode=v;else P[k]=Math.max(0,inch(v));renderMuntinProduction();renderAll();}
+function setMProdPositions(axis,v){var x=mpModel(),W=inch(x.S.w),H=inch(x.S.h),P=x.M.production;if(axis==='v')P.verticalPositions=parsePosList(v,W,x.M.layout.verticalBars);else P.horizontalPositions=parsePosList(v,H,x.M.layout.horizontalBars);renderMuntinProduction();renderAll();}
+function mpSvg(x){
+  var W=x.geo.W,H=x.geo.H,g=x.geo,M=x.M,P=muntinProduct(M.productId),C=muntinColors(M),vw=820,vh=570,pL=128,pR=88,pT=96,pB=92,aw=vw-pL-pR,ah=vh-pT-pB,sc=Math.min(aw/W,ah/H),dw=W*sc,dh=H*sc,x0=pL+(aw-dw)/2,y0=pT+(ah-dh)/2;
+  function X(v){return x0+v*sc}function Y(v){return y0+dh-v*sc}function tx(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+  function dimText(txt,xp,yp,size,anchor,fill,rotate){
+    size=size||11;anchor=anchor||'middle';fill=fill||'#555';
+    var tr=rotate?' transform="rotate('+rotate+' '+xp+' '+yp+')"':'';
+    return '<text x="'+xp+'" y="'+yp+'" text-anchor="'+anchor+'" dominant-baseline="middle" font-size="'+size+'" fill="'+fill+'" stroke="#fff" stroke-width="6" stroke-linejoin="round" paint-order="stroke fill"'+tr+'>'+tx(txt)+'</text>';
+  }
+  function hDim(a,b,y,label,color){
+    var xa=X(a),xb=X(b);if(xb<xa){var t=xa;xa=xb;xb=t;}
+    var len=Math.max(1,xb-xa),fs=len<48?9:(len<68?10:11);
+    return '<line x1="'+xa+'" y1="'+y+'" x2="'+xb+'" y2="'+y+'" stroke="'+color+'" marker-start="url(#arr)" marker-end="url(#arr)"/>'+dimText(label,(xa+xb)/2,y-12,fs,'middle',color);
+  }
+  function vDim(a,b,xp,label,color){
+    var ya=Y(a),yb=Y(b);if(yb<ya){var t=ya;ya=yb;yb=t;}
+    var len=Math.max(1,yb-ya),fs=len<48?9:(len<68?10:11);
+    return '<line x1="'+xp+'" y1="'+ya+'" x2="'+xp+'" y2="'+yb+'" stroke="'+color+'" marker-start="url(#arr)" marker-end="url(#arr)"/>'+dimText(label,xp+13,(ya+yb)/2,fs,'middle',color,-90);
+  }
+  var sw=Math.max(2.5,P.faceWidthIn*sc),o='<defs><marker id="arr" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M7,0 L0,3.5 L7,7" fill="none" stroke="#373532" stroke-width="1"/></marker></defs>';
+  o+='<rect x="'+x0+'" y="'+y0+'" width="'+dw+'" height="'+dh+'" fill="#f7fbfb" stroke="#282725" stroke-width="2"/>';
+  if(g.ix||g.iy)o+='<rect x="'+X(g.ix)+'" y="'+Y(H-g.iy)+'" width="'+Math.max(0,(W-2*g.ix)*sc)+'" height="'+Math.max(0,(H-2*g.iy)*sc)+'" fill="none" stroke="#8bbf53" stroke-width="1.5"/>';
+  x.geo.v.forEach(function(v){o+='<line x1="'+X(v)+'" y1="'+Y(g.iy)+'" x2="'+X(v)+'" y2="'+Y(H-g.iy)+'" stroke="'+C.exterior.hex+'" stroke-width="'+sw+'"/><line x1="'+X(v)+'" y1="'+Y(g.iy)+'" x2="'+X(v)+'" y2="'+Y(H-g.iy)+'" stroke="#555" stroke-width="1"/>';});
+  x.geo.h.forEach(function(h){o+='<line x1="'+X(g.ix)+'" y1="'+Y(h)+'" x2="'+X(W-g.ix)+'" y2="'+Y(h)+'" stroke="'+C.exterior.hex+'" stroke-width="'+sw+'"/><line x1="'+X(g.ix)+'" y1="'+Y(h)+'" x2="'+X(W-g.ix)+'" y2="'+Y(h)+'" stroke="#555" stroke-width="1"/>';});
+
+  // Overall glass dimensions live on their own outer dimension tier.
+  var overallY=y0+dh+48;
+  o+='<line x1="'+x0+'" y1="'+overallY+'" x2="'+(x0+dw)+'" y2="'+overallY+'" stroke="#373532" marker-start="url(#arr)" marker-end="url(#arr)"/>'+dimText(dimIn(W),x0+dw/2,overallY+22,14,'middle','#373532');
+  var overallX=x0-58;
+  o+='<line x1="'+overallX+'" y1="'+y0+'" x2="'+overallX+'" y2="'+(y0+dh)+'" stroke="#373532" marker-start="url(#arr)" marker-end="url(#arr)"/>'+dimText(dimIn(H),overallX-23,y0+dh/2,14,'middle','#373532',-90);
+
+  // Production chain dimensions: EDGE-TO-EDGE DLOs only. No cumulative centerline V/H dimensions.
+  // Each segment is dimensioned between the spacer/reference edge and the nearest muntin face,
+  // then between adjacent muntin faces, which is directly usable for shop hole/notch layout.
+  var dloColor='#267ea8',topY=y0+20;
+  for(var i=0;i<g.openX.length;i++){
+    var sx=g.openX[i];o+=hDim(sx.a,sx.b,topY,dimIn(sx.size),dloColor);
+    o+='<line x1="'+X(sx.a)+'" y1="'+(topY-6)+'" x2="'+X(sx.a)+'" y2="'+y0+'" stroke="#9cc7d9" stroke-width=".8"/><line x1="'+X(sx.b)+'" y1="'+(topY-6)+'" x2="'+X(sx.b)+'" y2="'+y0+'" stroke="#9cc7d9" stroke-width=".8"/>';
+  }
+  var leftX=x0+22;
+  for(i=0;i<g.openY.length;i++){
+    var sy=g.openY[i];o+=vDim(sy.a,sy.b,leftX,dimIn(sy.size),dloColor);
+    o+='<line x1="'+x0+'" y1="'+Y(sy.a)+'" x2="'+(leftX+6)+'" y2="'+Y(sy.a)+'" stroke="#9cc7d9" stroke-width=".8"/><line x1="'+x0+'" y1="'+Y(sy.b)+'" x2="'+(leftX+6)+'" y2="'+Y(sy.b)+'" stroke="#9cc7d9" stroke-width=".8"/>';
+  }
+
+  // One unobtrusive profile-width callout, also resolved on the 1/16 shop grid.
+  if(g.vEdges.length){var be=g.vEdges[0],wy=y0-26;o+=hDim(be.near,be.far,wy,dimIn(g.face),'#555');}
+  else if(g.hEdges.length){var bhe=g.hEdges[0],wx=x0+dw+28;o+=vDim(bhe.near,bhe.far,wx,dimIn(g.face),'#555');}
+
+  return '<svg viewBox="0 0 '+vw+' '+vh+'" aria-label="Muntin production drawing">'+o+'</svg>';
+}
+function renderMuntinProduction(){
+  if(MPROD.line<0)return;var x=mpModel(),S=x.S,W=inch(S.w),H=inch(S.h),M=normalizeMuntinModel(x.M),P=M.production,prod=muntinProduct(M.productId),cavs=muntinCavityIndexes(x.pair.mu),geo=productionGeometry(M,W,H);x.geo=geo;
+  var tabs=cavs.map(function(ci){return '<button class="'+(ci===MPROD.cavity?'primary':'')+'" onclick="MPROD.cavity='+ci+';renderMuntinProduction()">Cavity '+(ci+1)+'</button>';}).join('');
+  var vtxt=(P.verticalPositions||[]).map(dimIn).join(', '),htxt=(P.horizontalPositions||[]).map(dimIn).join(', '),warning='';
+  if(geo.ix*2>=W||geo.iy*2>=H)warning='<div class="mprodWarn mprodError">Edge inset is too large for this IGU size.</div>';
+  else if(P.mode==='custom'&&((P.verticalPositions||[]).length<M.layout.verticalBars||(P.horizontalPositions||[]).length<M.layout.horizontalBars))warning='<div class="mprodWarn">Some custom positions are missing. Equal-spacing positions are temporarily used for the missing bars.</div>';
+  document.getElementById('mprodTitle').innerHTML='Muntin production · Line '+(MPROD.line+1)+(S.mark?' · '+esc(S.mark):'');
+  document.getElementById('mprodMeta').innerHTML=esc(S.w)+' × '+esc(S.h)+' · Make-up '+letter(x.pair.index)+' · '+esc(prod.label);
+  document.getElementById('mprodControls').innerHTML='<div class="mprodGroup"><div class="mprodGroupTitle">Cavity</div><div class="mprodActions" style="margin-top:0">'+tabs+'</div></div>'+
+   '<div class="mprodGroup"><div class="mprodGroupTitle">Layout method</div><div class="mprodRow one"><select onchange="setMProd(\'mode\',this.value)"><option value="equal"'+(P.mode==='equal'?' selected':'')+'>Equal clear openings (DLO)</option><option value="custom"'+(P.mode==='custom'?' selected':'')+'>Custom bar positions</option></select></div></div>'+
+   '<div class="mprodGroup"><div class="mprodGroupTitle">Shop reference offsets</div><div class="mprodRow"><div><div class="lbl">Edge inset X · from glass edge</div><input value="'+esc(dimIn(P.edgeInsetX))+'" onchange="setMProd(\'edgeInsetX\',this.value)"></div><div><div class="lbl">Edge inset Y · from glass edge</div><input value="'+esc(dimIn(P.edgeInsetY))+'" onchange="setMProd(\'edgeInsetY\',this.value)"></div></div><div class="mprodRow one"><div><div class="lbl">Bar end clearance</div><input value="'+esc(dimIn(P.endClearance))+'" onchange="setMProd(\'endClearance\',this.value)"></div></div><div class="mprodWarn">These are shop parameters, not assumed engineering constants. Set them to your spacer / connector system requirements.</div></div>'+
+   (P.mode==='custom'?'<div class="mprodGroup"><div class="mprodGroupTitle">Custom bar positions</div><div class="mprodRow one"><div><div class="lbl">Vertical bar center · from LEFT glass edge (setup input)</div><input placeholder="e.g. 6 5/8, 13 7/8" value="'+esc(vtxt)+'" onchange="setMProdPositions(\'v\',this.value)"></div><div><div class="lbl">Horizontal bar center · from BOTTOM glass edge (setup input)</div><input placeholder="e.g. 6 3/4" value="'+esc(htxt)+'" onchange="setMProdPositions(\'h\',this.value)"></div></div></div>':'')+
+   '<div class="mprodGroup"><div class="mprodGroupTitle">Calculated production</div><div style="font-size:10px;line-height:1.65">Vertical bar cut: <b>'+dimIn(geo.verticalCut)+'</b> × '+M.layout.verticalBars+'<br>Horizontal bar cut: <b>'+dimIn(geo.horizontalCut)+'</b> × '+M.layout.horizontalBars+'<br>Reference opening: <b>'+dimIn(Math.max(0,W-2*geo.ix))+' × '+dimIn(Math.max(0,H-2*geo.iy))+'</b><br>Shop fraction resolution: <b>1/16″</b><br>Clear openings W: <b>'+geo.openX.map(function(o){return dimIn(o.size)}).join(' · ')+'</b><br>Clear openings H: <b>'+geo.openY.map(function(o){return dimIn(o.size)}).join(' · ')+'</b></div>'+warning+'</div>'+
+   '<div class="mprodActions"><button class="primary" onclick="printMuntinProduction()">Print production drawing</button><button onclick="closeMuntinProduction()">Done</button></div>';
+  var bom='<div class="mprodBom"><table><thead><tr><th>Part</th><th>Qty</th><th>Cut length</th><th>Position / reference</th></tr></thead><tbody>';
+  for(var i=0;i<geo.v.length;i++){var ve=geo.vEdges[i];bom+='<tr><td>Vertical V'+(i+1)+'</td><td>1</td><td>'+dimIn(geo.verticalCut)+'</td><td>Edges '+dimIn(ve.near)+' – '+dimIn(ve.far)+' from left</td></tr>';}
+  for(i=0;i<geo.h.length;i++){var he=geo.hEdges[i];bom+='<tr><td>Horizontal H'+(i+1)+'</td><td>1</td><td>'+dimIn(geo.horizontalCut)+'</td><td>Edges '+dimIn(he.near)+' – '+dimIn(he.far)+' from bottom</td></tr>';}
+  bom+='</tbody></table></div>';
+  document.getElementById('mprodDrawing').innerHTML=mpSvg(x)+bom;
+}
+function printMuntinProduction(){
+  if(MPROD.line<0)return;var x=mpModel(),S=x.S,W=inch(S.w),H=inch(S.h);x.geo=productionGeometry(x.M,W,H);var P=muntinProduct(x.M.productId),C=muntinColors(x.M),geo=x.geo;
+  var rows='';for(var i=0;i<geo.v.length;i++){var ve=geo.vEdges[i];rows+='<tr><td>V'+(i+1)+'</td><td>Vertical</td><td>'+dimIn(geo.verticalCut)+'</td><td>'+dimIn(ve.near)+' – '+dimIn(ve.far)+' from left</td></tr>';}for(i=0;i<geo.h.length;i++){var he=geo.hEdges[i];rows+='<tr><td>H'+(i+1)+'</td><td>Horizontal</td><td>'+dimIn(geo.horizontalCut)+'</td><td>'+dimIn(he.near)+' – '+dimIn(he.far)+' from bottom</td></tr>';}
+  var win=window.open('','_blank','width=1100,height=850');if(!win)return alert('Pop-up blocked. Allow pop-ups to print the production drawing.');
+  win.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Muntin Production '+esc(S.mark||('Line '+(MPROD.line+1)))+'</title><style>body{font:13px Arial;margin:24px;color:#222}h1{font-size:20px;margin:0 0 5px}.meta{color:#666;margin-bottom:15px}.drawing svg{width:100%;max-height:600px}table{width:100%;border-collapse:collapse;margin-top:12px}th,td{border:1px solid #bbb;padding:6px;text-align:left}th{background:#eee}.note{margin-top:12px;font-size:11px;color:#666}@page{size:landscape;margin:10mm}</style></head><body><h1>Muntin Production Drawing</h1><div class="meta">Line '+(MPROD.line+1)+' · '+esc(S.mark||'No mark')+' · IGU '+esc(S.w)+' × '+esc(S.h)+' · Make-up '+letter(x.pair.index)+' · Cavity '+(MPROD.cavity+1)+' · '+esc(P.label)+' · Exterior '+esc(C.exterior.name)+' / Interior '+esc(C.interior.name)+'</div><div class="drawing">'+mpSvg(x)+'</div><table><thead><tr><th>ID</th><th>Orientation</th><th>Nominal cut</th><th>Bar edge references</th></tr></thead><tbody>'+rows+'</tbody></table><div class="note">Edge inset X '+dimIn(geo.ix)+' · Edge inset Y '+dimIn(geo.iy)+' · Bar end clearance '+dimIn(geo.ec)+'. Shop dimensions shown at 1/16″ resolution. Bar references are face-to-face / edge-to-edge; verify connector/notching allowances before fabrication.</div><script>window.onload=function(){setTimeout(function(){window.print()},250)}<\/script></body></html>');win.document.close();
+}
+
 function addT(key,s){LITES[idx(key)].trs.push({s:s,t:"Silk screen / frit"});renderAll();}
 function setT(key,i,k,v){LITES[idx(key)].trs[i][k]=v;renderAll();}
 function delT(key,i){LITES[idx(key)].trs.splice(i,1);renderAll();}
@@ -894,6 +1244,13 @@ function crossSVG(big){
          '<rect x="'+x.toFixed(1)+'" y="'+(baseY-secH-spH).toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+spH+'" fill="'+SP.col+'"/>'+
          '<rect x="'+x.toFixed(1)+'" y="'+(baseY-secH-spH).toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+spH+'" fill="url(#desicc2)"/>'+
          '<rect x="'+x.toFixed(1)+'" y="'+(baseY-secH-spH-silH).toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+silH+'" fill="#1f1e1d"/>';
+      if(G.muntin&&G.muntin.enabled){
+        var MP=muntinProduct(G.muntin.productId),MC=muntinColors(G.muntin),frac=Math.min(.82,(MP.depthIn*25.4)/Math.max(1,gm));
+        var mw=Math.max(5,Math.min(w-8,w*frac)),mh=Math.max(12,Math.min(34,MP.faceWidthIn*24)),mx=x+(w-mw)/2,my=y0+bh/2-mh/2;
+        o+='<rect x="'+mx.toFixed(1)+'" y="'+my.toFixed(1)+'" width="'+(mw/2).toFixed(1)+'" height="'+mh.toFixed(1)+'" rx="1" fill="'+MC.exterior.hex+'" stroke="#77736c" stroke-width=".8"/>'+
+           '<rect x="'+(mx+mw/2).toFixed(1)+'" y="'+my.toFixed(1)+'" width="'+(mw/2).toFixed(1)+'" height="'+mh.toFixed(1)+'" rx="1" fill="'+MC.interior.hex+'" stroke="#77736c" stroke-width=".8"/>'+
+           '<text x="'+(x+w/2).toFixed(1)+'" y="'+(y0+bh/2+3).toFixed(1)+'" text-anchor="middle" font-size="8" font-family="Arial" font-weight="700" fill="'+(MC.exterior.name==="Black"?'#fff':'#333')+'">M</text>';
+      }
       
       o+='<g pointer-events="none"><rect x="'+(x+w/2-10).toFixed(1)+'" y="'+(y0+10)+'" width="20" height="16" rx="8" fill="#fff" fill-opacity=".92" stroke="#ddd9d0"/>'+
          '<text x="'+(x+w/2).toFixed(1)+'" y="'+(y0+21.2)+'" text-anchor="middle" font-size="9.2" font-family="Arial" font-weight="700" fill="#55534e">C'+(el.i+1)+'</text></g>';
@@ -935,6 +1292,20 @@ function box3(w,h,d,x,y,z,face,edge,skip){
   if(!skip.left)  o+=fc3(d,h,t+'translateX('+(-w/2).toFixed(1)+'px) rotateY(-90deg)',edge);
   if(!skip.top)   o+=fc3(w,d,t+'translateY('+(-h/2).toFixed(1)+'px) rotateX(90deg)',edge);
   if(!skip.bottom)o+=fc3(w,d,t+'translateY('+(h/2).toFixed(1)+'px) rotateX(-90deg)',edge);
+  return o;
+}
+function muntinBox3(w,h,d,x,y,z,extCol,intCol){
+  var t="translate3d("+x.toFixed(1)+"px,"+y.toFixed(1)+"px,"+z.toFixed(1)+"px) ",o="";
+  var ext='background:'+extCol+';border:1px solid rgba(70,68,64,.58);box-shadow:inset 0 0 5px rgba(255,255,255,.18)';
+  var inn='background:'+intCol+';border:1px solid rgba(70,68,64,.58);box-shadow:inset 0 0 5px rgba(255,255,255,.18)';
+  var edge='background:#77736c;border:1px solid rgba(50,48,45,.42)';
+  /* Assembly runs exterior -> interior as z increases: back face is exterior, front face interior. */
+  o+=fc3(w,h,t+'translateZ('+(d/2).toFixed(1)+'px)',inn);
+  o+=fc3(w,h,t+'translateZ('+(-d/2).toFixed(1)+'px) rotateY(180deg)',ext);
+  o+=fc3(d,h,t+'translateX('+(w/2).toFixed(1)+'px) rotateY(90deg)',edge);
+  o+=fc3(d,h,t+'translateX('+(-w/2).toFixed(1)+'px) rotateY(-90deg)',edge);
+  o+=fc3(w,d,t+'translateY('+(-h/2).toFixed(1)+'px) rotateX(90deg)',edge);
+  o+=fc3(w,d,t+'translateY('+(h/2).toFixed(1)+'px) rotateX(-90deg)',edge);
   return o;
 }
 function liteMM(L){
@@ -1020,6 +1391,14 @@ function scene3d(){
       html+=box3(bar,PH-2*bar-6,d,-PW/2+bar/2+2,0,zc,'background:'+frameCol+';opacity:.86','background:'+frameCol+';opacity:.92');
       html+=box3(bar,PH-2*bar-6,d, PW/2-bar/2-2,0,zc,'background:'+frameCol+';opacity:.86','background:'+frameCol+';opacity:.92');
 
+      if(G.muntin&&G.muntin.enabled){
+        var MM=normalizeMuntinModel(G.muntin),MP3=muntinProduct(MM.productId),MC3=muntinColors(MM);
+        var innerW=PW-2*bar-9,innerH=PH-2*bar-9,facePx=Math.max(3,MP3.faceWidthIn*(PW/PANE_W_IN));
+        var md=Math.max(2.2,Math.min(d*.72,d*(MP3.depthIn*25.4/Math.max(1,cavityMM(G.w)))));
+        for(var mv=0;mv<MM.layout.verticalBars;mv++){var mx3=-innerW/2+(mv+1)*innerW/(MM.layout.verticalBars+1);html+=muntinBox3(facePx,innerH,md,mx3,0,zc,MC3.exterior.hex,MC3.interior.hex);}
+        for(var mh=0;mh<MM.layout.horizontalBars;mh++){var my3=-innerH/2+(mh+1)*innerH/(MM.layout.horizontalBars+1);html+=muntinBox3(innerW,facePx,md,0,my3,zc,MC3.exterior.hex,MC3.interior.hex);}
+      }
+
       z+=d;
     }
     if(e<els.length-1)z+=EXTRA;
@@ -1104,7 +1483,7 @@ function assemblyRowsHTML(){
     if(L.kind==="spandrel") extras.push("spandrel S"+L.pside);
     if(fr) extras.push("frit S"+fr.side);
     h+='<div class="assemblyRow"><div class="arType">Lite '+(i+1)+'</div><div class="arMain"><b>'+esc(glass)+'</b>'+(extras.length?' · '+esc(extras.join(' · ')):'')+'</div><div class="arEnd">'+mm.toFixed(2)+' mm · #'+surfN(i)+'/ #'+(surfN(i)+1)+'</div></div>';
-    if(i<GAPS.length){var G=GAPS[i],SP=spacerOf(G.sp);h+='<div class="assemblyRow"><div class="arType">Cavity '+(i+1)+'</div><div class="arMain"><b>'+esc(G.gas)+'</b> · '+esc(SP.n)+' · '+esc(G.seal)+'</div><div class="arEnd">'+esc(G.w)+'″ · '+cavityMM(G.w).toFixed(1)+' mm</div></div>';}
+    if(i<GAPS.length){var G=GAPS[i],SP=spacerOf(G.sp),MS=muntinSummary(G.muntin);h+='<div class="assemblyRow"><div class="arType">Cavity '+(i+1)+'</div><div class="arMain"><b>'+esc(G.gas)+'</b> · '+esc(SP.n)+' · '+esc(G.seal)+(MS?' · <b>Muntin:</b> '+esc(MS):'')+'</div><div class="arEnd">'+esc(G.w)+'″ · '+cavityMM(G.w).toFixed(1)+' mm</div></div>';}
   }
   return h;
 }
@@ -1118,15 +1497,36 @@ function legendHTML(){
   var items=[];
   if(hasCoat) items.push(['#2f7fb5','coating']);
   if(hasIL)   items.push(['#efe4c8','interlayer']);
+  var hasMuntin=false;for(var g=0;g<GAPS.length;g++)if(GAPS[g].muntin&&GAPS[g].muntin.enabled)hasMuntin=true;
+  if(hasMuntin)items.push(['#202020','muntin bar']);
   items.push(['#8d8880','spacer']);
   items.push(['#1f1e1d','primary seal']);
   items.push(['#6b6b68','secondary seal']);
   return items.map(function(x){return '<span><i style="background:'+x[0]+'"></i>'+x[1]+'</span>';}).join("");
 }
-var sizes=[{mark:"",qty:"",w:"",h:""}];
-function addS(n){for(var i=0;i<n;i++)sizes.push({mark:"",qty:"",w:"",h:""});renderRows();}
-function setS(i,k,v){sizes[i][k]=v;renderRows();}
-function delS(i){sizes.splice(i,1);if(!sizes.length)sizes.push({mark:"",qty:"",w:"",h:""});renderRows();}
+function newOrderLine(seed){
+  seed=seed||{};
+  return {id:seed.id||entityId("line"),mark:seed.mark||"",qty:seed.qty||"",w:seed.w||"",h:seed.h||"",
+    makeupId:seed.makeupId||((mus&&mus[0])?mus[0].id:"")};
+}
+function normalizeOrderLine(S){
+  if(!S)return newOrderLine();
+  if(!S.id)S.id=entityId("line");
+  if(S.mark==null)S.mark="";if(S.qty==null)S.qty="";if(S.w==null)S.w="";if(S.h==null)S.h="";
+  if(S.makeupId==null)S.makeupId=(mus&&mus[0])?mus[0].id:"";
+  return S;
+}
+var sizes=[newOrderLine()];
+function syncOrderAssignments(){
+  for(var i=0;i<sizes.length;i++){
+    sizes[i]=normalizeOrderLine(sizes[i]);
+    var mi=muOfLine(i+1);
+    sizes[i].makeupId=(mus[mi]&&mus[mi].id)||mus[0].id;
+  }
+}
+function addS(n){for(var i=0;i<n;i++)sizes.push(newOrderLine());syncOrderAssignments();renderRows();}
+function setS(i,k,v){sizes[i]=normalizeOrderLine(sizes[i]);sizes[i][k]=v;renderRows();}
+function delS(i){sizes.splice(i,1);if(!sizes.length)sizes.push(newOrderLine());syncOrderAssignments();renderRows();}
 function inch(t){t=String(t||"").trim().replace("\u2033","");
   var m=t.match(/^(\d+)\s+(\d+)\/(\d+)$/);if(m)return +m[1]+(+m[2])/(+m[3]);
   m=t.match(/^(\d+)\/(\d+)$/);if(m)return(+m[1])/(+m[2]);
@@ -1158,13 +1558,18 @@ function markStr(mu,idx){
   return "M-U "+letter(idx)+(idx>0&&mu.lines?" (lines "+esc(mu.lines)+")":(idx===0?" (all other lines)":""))
     +": "+parts.map(esc).join(" | ")+"  \u00b7  "+tot.toFixed(2)+" mm / "+(tot/25.4).toFixed(3)+"\u2033";
 }
+function fmtNominalMM(v){
+  v=+v;if(!isFinite(v))return "";
+  return (Math.abs(v-Math.round(v))<0.0001?String(Math.round(v)):String(Math.round(v*100)/100))+" mm";
+}
+function nominalLiteMM(L){
+  if(!L)return 0;
+  if(L.lam)return (+L.p1||0)+(+((L.il||{}).th)||0)+(+L.p2||0);
+  return +L.t||0;
+}
 function printLiteBlock(L,i){
-  var cf=coatedOf(L), fr=fritOf(L), mm=liteMM(L), main="", details=[];
-  if(L.lam){
-    main=L.p1+"mm "+L.g1+" + "+L.il.brand+" "+L.il.th+" "+L.il.gr+" + "+L.p2+"mm "+L.g2;
-  } else {
-    main=L.t+"mm "+L.lbl;
-  }
+  var cf=coatedOf(L), fr=fritOf(L), nominal=nominalLiteMM(L), main="", details=[];
+  if(L.lam){main=L.p1+"mm "+L.g1+" + "+L.il.brand+" "+L.il.th+" "+L.il.gr+" + "+L.p2+"mm "+L.g2;} else {main=L.lbl;}
   if(cf) details.push("Coating on surface #"+absSurf(i,cf.side));
   if(L.kind==="spandrel") details.push("Opaci-Coat "+L.paint+" on surface #"+absSurf(i,L.pside));
   if(fr) details.push(fr.pat+" ("+fr.color+") on surface #"+absSurf(i,fr.side));
@@ -1173,31 +1578,31 @@ function printLiteBlock(L,i){
     +'<div class="pseghead"><span class="pcode">L'+(i+1)+'</span><span class="pkind">Lite '+(i+1)+'</span></div>'
     +'<div class="psegmain"><b>'+esc(main)+'</b></div>'
     +(details.length?'<div class="psegdetail">'+esc(details.join(' · '))+'</div>':'')
-    +'<div class="psegmeta">'+mm.toFixed(2)+' mm actual · surfaces #'+surfN(i)+' / #'+(surfN(i)+1)+'</div>'
+    +'<div class="psegmeta"><b>'+esc(fmtNominalMM(nominal))+' nominal</b> · surfaces #'+surfN(i)+' / #'+(surfN(i)+1)+'</div>'
     +'</div>';
 }
 function printCavityBlock(G,i){
-  var SP=spacerOf(G.sp);
+  var SP=spacerOf(G.sp),MS=muntinSummary(G.muntin);
   return '<div class="pseg cavity">'
     +'<div class="pseghead"><span class="pcode">C'+(i+1)+'</span><span class="pkind">Cavity '+(i+1)+'</span></div>'
-    +'<div class="psegmain"><b>'+esc(G.gas)+'</b></div>'
-    +'<div class="psegdetail">'+esc(SP.n)+' · '+esc(G.seal)+'</div>'
-    +'<div class="psegmeta">'+esc(G.w)+'″ · '+cavityMM(G.w).toFixed(1)+' mm</div>'
+    +'<div class="psegmain"><b>'+esc(SP.n)+' · '+esc(G.w)+'″</b><br><b>'+esc(G.seal)+'</b></div>'
+    +'<div class="psegdetail">'+esc(G.gas)+(MS?('<br><b>Muntin:</b> '+esc(MS)):'')+'</div>'
+    +'<div class="psegmeta">'+cavityMM(G.w).toFixed(1)+' mm actual cavity</div>'
     +'</div>';
 }
 function printAssemblyRowsHTML(mu){
   var h="";
   for(var i=0;i<mu.lites.length;i++){
-    var L=mu.lites[i], mm=liteMM(L), glass=L.lam?(L.g1+" + "+L.il.gr+" + "+L.g2):L.lbl;
+    var L=mu.lites[i], nominal=nominalLiteMM(L), glass=L.lam?(L.g1+" + "+L.il.gr+" + "+L.g2):L.lbl;
     var cf=coatedOf(L), fr=fritOf(L), extras=[];
     if(cf) extras.push("Coating on surface #"+absSurf(i,cf.side));
     if(L.kind==="spandrel") extras.push("Opaci-Coat "+L.paint+" on surface #"+absSurf(i,L.pside));
     if(fr) extras.push(fr.pat+" ("+fr.color+") on surface #"+absSurf(i,fr.side));
     if(L.heat) extras.push(L.heat);
-    h+='<div class="printAssemblyRow"><div class="parType">L'+(i+1)+'</div><div class="parMain"><b>'+esc(glass)+'</b>'+(extras.length?'<span class="parSub">'+esc(extras.join(' · '))+'</span>':'')+'</div><div class="parEnd">'+mm.toFixed(2)+' mm<br>#'+surfN(i)+' / #'+(surfN(i)+1)+'</div></div>';
+    h+='<div class="printAssemblyRow liteRow"><div class="parType">L'+(i+1)+'</div><div class="parMain"><b>'+esc(glass)+'</b>'+(extras.length?'<span class="parSub">'+esc(extras.join(' · '))+'</span>':'')+'</div><div class="parEnd"><span class="parNominal">'+esc(fmtNominalMM(nominal))+'</span><br>#'+surfN(i)+' / #'+(surfN(i)+1)+'</div></div>';
     if(i<mu.gaps.length){
-      var G=mu.gaps[i],SP=spacerOf(G.sp);
-      h+='<div class="printAssemblyRow"><div class="parType">C'+(i+1)+'</div><div class="parMain"><b>'+esc(G.gas)+'</b><span class="parSub">'+esc(SP.n)+' · '+esc(G.seal)+'</span></div><div class="parEnd">'+esc(G.w)+'″<br>'+cavityMM(G.w).toFixed(1)+' mm</div></div>';
+      var G=mu.gaps[i],SP=spacerOf(G.sp),MS=muntinSummary(G.muntin),secondary=esc(G.gas)+(MS?(' · Muntin: '+esc(MS)):'');
+      h+='<div class="printAssemblyRow cavityRow"><div class="parType">C'+(i+1)+'</div><div class="parMain"><span class="cavitySpacer">'+esc(SP.n)+' · '+esc(G.w)+'″</span><span class="cavitySealant">'+esc(G.seal)+'</span><span class="cavitySecondary">'+secondary+'</span></div><div class="parEnd"><span class="parActual">ACTUAL CAVITY</span><br>'+cavityMM(G.w).toFixed(1)+' mm</div></div>';
     }
   }
   return '<div class="printAssembly"><div class="printAssemblyLabel">Assembly layers</div><div class="printAssemblyRows">'+h+'</div></div>';
@@ -1220,7 +1625,7 @@ function printSheetHTML(){
      +'<div class="pmuh"><span class="badge" style="background:'+MUCOL[i%MUCOL.length]+'">'+letter(i)+'</span>'
      +'<b>MAKE-UP '+letter(i)+'</b><span class="pmutag">'+(i===0?"all other lines":("lines "+esc(mu_lines_or(mus[i].lines))))+'</span>'
      +'<span class="pmutag">'+(mus[i].lites.length===2?"double":mus[i].lites.length===3?"triple":"quad")+'</span>'
-     +'<span class="ptotal">'+tot.toFixed(2)+' mm · '+(tot/25.4).toFixed(3)+'″</span></div>'
+     +'<span class="ptotal"><span class="otLabel">OT actual</span>'+tot.toFixed(2)+' mm · '+(tot/25.4).toFixed(3)+'″</span></div>'
      +'<div class="pbody">'
      +  printAssemblyRowsHTML(mus[i])
      +  '<div class="pdiagwrap"><div class="pdiagcap">IGU build-up</div><div class="pdiag">'+diag+'</div></div>'
@@ -1233,6 +1638,7 @@ function printSheetHTML(){
 }
 function mu_lines_or(v){return v||"\u2014";}
 function rowsHTML(){
+  syncOrderAssignments();
   var af=document.activeElement, afId=(af&&af.tagName==="INPUT"&&af.id&&af.id.indexOf("sz_")===0)?af.id:null;
   var selS=afId?af.selectionStart:null, selE=afId?af.selectionEnd:null;
   var h="",tq=0,ta=0;
@@ -1246,7 +1652,7 @@ function rowsHTML(){
      +'<td><input id="sz_'+i+'_w" value="'+esc(S.w)+'" placeholder="in" oninput="setS('+i+',\'w\',this.value)"></td>'
      +'<td><input id="sz_'+i+'_h" value="'+esc(S.h)+'" placeholder="in" oninput="setS('+i+',\'h\',this.value)"></td>'
      +'<td style="font-size:11px;color:var(--soft)">'+(a?a.toFixed(1):"")+'</td>'
-     +'<td class="nopr"><button class="x" style="border:0;background:none;color:var(--muted);font-size:15px" onclick="delS('+i+')">\u00d7</button></td></tr>';
+     +'<td class="nopr">'+(muntinCavityIndexes(mus[mi]).length?'<button class="mprodBtn" onclick="openMuntinProduction('+i+')">Muntin plan</button> ':'')+'<button class="x" style="border:0;background:none;color:var(--muted);font-size:15px" onclick="delS('+i+')">\u00d7</button></td></tr>';
   }
   var per=[];
   for(var m=0;m<mus.length;m++){var c=0;
@@ -1260,6 +1666,46 @@ function rowsHTML(){
   }
 }
 function renderRows(){rowsHTML();}
+function canonicalMakeupV2(mu){
+  mu=normalizeMUModel(mu);
+  return {
+    schemaVersion:IGU_MODEL_VERSION,
+    id:mu.id,
+    name:mu.name||"",
+    lines:mu.lines||"",
+    lites:mu.lites.map(function(L){return JSON.parse(JSON.stringify(normalizeLiteModel(L)));}),
+    cavities:mu.gaps.map(function(G){return JSON.parse(JSON.stringify(normalizeCavityModel(G)));})
+  };
+}
+function snapshotIGUModelV2(){
+  syncOrderAssignments();
+  return {
+    schemaVersion:IGU_MODEL_VERSION,
+    makeups:mus.map(canonicalMakeupV2),
+    orderLines:sizes.map(function(S){return JSON.parse(JSON.stringify(normalizeOrderLine(S)));})
+  };
+}
+function validateIGUModelV2(){
+  var snap=snapshotIGUModelV2(),ids={},issues=[];
+  function take(id,type){if(!id)issues.push(type+" missing id");else if(ids[id])issues.push("Duplicate id: "+id);else ids[id]=type;}
+  for(var m=0;m<snap.makeups.length;m++){
+    var mu=snap.makeups[m];take(mu.id,"make-up");
+    if(mu.lites.length<2)issues.push(mu.id+" has fewer than 2 lites");
+    if(mu.cavities.length!==mu.lites.length-1)issues.push(mu.id+" cavity/lite count mismatch");
+    for(var l=0;l<mu.lites.length;l++){take(mu.lites[l].id,"lite");if(!mu.lites[l].glassId&&!mu.lites[l].lam)issues.push(mu.lites[l].id+" has no glass catalog reference");}
+    for(var c=0;c<mu.cavities.length;c++){
+      take(mu.cavities[c].id,"cavity");
+      var CM=normalizeMuntinModel(mu.cavities[c].muntin);
+      if(CM.enabled&&!MUNTIN_BARS.some(function(P){return P.id===CM.productId&&P.enabled!==false;}))issues.push(mu.cavities[c].id+" references missing muntin product "+CM.productId);
+    }
+  }
+  for(var i=0;i<snap.orderLines.length;i++){
+    var S=snap.orderLines[i];take(S.id,"order line");
+    if(!snap.makeups.some(function(mu){return mu.id===S.makeupId;}))issues.push(S.id+" references missing make-up "+S.makeupId);
+  }
+  return {ok:issues.length===0,schemaVersion:IGU_MODEL_VERSION,issues:issues,snapshot:snap};
+}
+if(typeof window!=="undefined")window.IGU_MODEL={version:IGU_MODEL_VERSION,snapshot:snapshotIGUModelV2,validate:validateIGUModelV2,muntinCatalog:function(){return JSON.parse(JSON.stringify(MUNTIN_BARS));}};
 function assignmentWarningHTML(){
   var owner={},dup={};
   for(var i=1;i<mus.length;i++){
@@ -1291,19 +1737,13 @@ function tabsHTML(){
   var mw=document.getElementById("muwarn"); if(mw){var msg=assignmentWarningHTML();mw.innerHTML=msg;mw.className="muwarn"+(msg?" on":"");}
 }
 function renderAll(){
+  mus[cur]=normalizeMUModel(mus[cur]);
+  LITES=mus[cur].lites;GAPS=mus[cur].gaps;CONFIG=LITES.length;
+  syncOrderAssignments();
 
   renderCfg();
   renderView();
-  var h=""; for(var i=0;i<LITES.length;i++){h+=liteHTML(LITES[i],i); if(i<GAPS.length){
-    var G=GAPS[i],so="";
-    for(var k=0;k<SPACER.length;k++) so+='<option value="'+SPACER[k].c+'"'+(SPACER[k].c===G.sp?' selected':'')+'>'+SPACER[k].c+' \u2014 '+SPACER[k].n+'</option>';
-    h+='<div class="gap"><div class="lh"><span class="t">Air space</span><span style="flex:1"></span>'
-     +'<span class="mm">'+cavityMM(G.w).toFixed(1)+' mm</span></div>'
-     +'<div class="row"><div><div class="lbl">Width</div><select onchange="setG('+i+',\'w\',this.value)">'+opt(spacerOf(G.sp).s,G.w,function(x){return x+"\u2033";})+'</select></div>'
-     +'<div><div class="lbl">Spacer</div><select onchange="setG('+i+',\'sp\',this.value)">'+so+'</select></div>'
-     +'<div><div class="lbl">Gas</div><select onchange="setG('+i+',\'gas\',this.value)">'+opt(GAS,G.gas)+'</select></div>'
-     +'<div><div class="lbl">Sealant</div><select onchange="setG('+i+',\'seal\',this.value)">'+opt(SEAL,G.seal)+'</select></div></div></div>';
-  }}
+  var h=""; for(var i=0;i<LITES.length;i++){h+=liteHTML(LITES[i],i); if(i<GAPS.length)h+=cavityHTML(GAPS[i],i);}
   document.getElementById("stack").innerHTML=h;
   document.getElementById("cross").innerHTML=crossSVG();
   var tot=totalMM();
@@ -1343,11 +1783,17 @@ function applyBackendDb(db){
   if(Array.isArray(st.fritPatterns)&&st.fritPatterns.length) FRIT=st.fritPatterns;
   if(Array.isArray(st.fritColors)&&st.fritColors.length) FRITCOLOR=st.fritColors;
   if(Array.isArray(st.categories)&&st.categories.length) CATS=st.categories;
+  if(Array.isArray(st.muntinBars)&&st.muntinBars.length){var mb=st.muntinBars.map(normalizeMuntinProduct).filter(function(x){return x.id;});if(mb.length)MUNTIN_BARS=mb;}
   if(st.constants){
     if(isFinite(+st.constants.PANE_W_IN)) PANE_W_IN=+st.constants.PANE_W_IN;
     if(isFinite(+st.constants.PANE_H_IN)) PANE_H_IN=+st.constants.PANE_H_IN;
     if(isFinite(+st.constants.PIB_SIDE_MM)) PIB_SIDE_MM=+st.constants.PIB_SIDE_MM;
     if(isFinite(+st.constants.SPACER_HEIGHT_IN)) SPACER_HEIGHT_IN=+st.constants.SPACER_HEIGHT_IN;
+  }
+  /* Keep current IGU selections linked to stable catalog IDs after a cloud refresh. */
+  for(var m=0;m<mus.length;m++){
+    for(var li=0;li<mus[m].lites.length;li++)syncLiteCatalogRefs(mus[m].lites[li],true);
+    for(var ci=0;ci<mus[m].cavities.length;ci++)mus[m].cavities[ci]=normalizeCavityModel(mus[m].cavities[ci]);
   }
 }
 function safeApplySaved(){
@@ -1396,6 +1842,9 @@ function bootApp(){
      Admin login is never required for the builder. */
   addS(5);
   renderAll();
+  var modelCheck=validateIGUModelV2();
+  if(!modelCheck.ok)console.warn("IGU Data Model v2 validation:",modelCheck.issues);
+  else console.info("IGU Data Model v2 ready. Make-ups:",modelCheck.snapshot.makeups.length,"Order lines:",modelCheck.snapshot.orderLines.length);
   refreshCatalogOptional();
 }
 bootApp();
@@ -1479,7 +1928,7 @@ var XLS=(function(){
   function cellOf(el){return (el&&el.tagName==="INPUT")?pid(el.id):null;}
   function norm(s){if(!s)return null;return {r1:Math.min(s.r1,s.r2),r2:Math.max(s.r1,s.r2),
     c1:Math.min(s.c1,s.c2),c2:Math.max(s.c1,s.c2)};}
-  function grow(n){var ch=false;while(sizes.length<n){sizes.push({mark:"",qty:"",w:"",h:""});ch=true;}return ch;}
+  function grow(n){var ch=false;while(sizes.length<n){sizes.push(newOrderLine());ch=true;}return ch;}
   function clean(v){v=String(v==null?"":v).replace(/^\uFEFF/,"").trim();
     if(v.length>1&&v.charAt(0)==='"'&&v.charAt(v.length-1)==='"')v=v.slice(1,-1).replace(/""/g,'"');
     return v.replace(/\u2033|\u201d/g,"").trim();}
@@ -1715,10 +2164,10 @@ var XLS=(function(){
             !sizes[sizes.length-1].w&&!sizes[sizes.length-1].h)sizes.pop();
       start=sizes.length;}
     for(var i=0;i<rows.length;i++){
-      var o={mark:"",qty:"",w:"",h:""};
+      var o=newOrderLine();
       for(var c=0;c<map.length;c++)o[map[c]]=rows[i][c]||"";
       sizes.push(o);}
-    if(!sizes.length)sizes.push({mark:"",qty:"",w:"",h:""});
+    if(!sizes.length)sizes.push(newOrderLine());
     renderRows();
     anchor={r:start,c:0};sel={r1:start,c1:0,r2:sizes.length-1,c2:3};paint();
     close();}
@@ -1733,7 +2182,7 @@ var XLS=(function(){
 
   function clearAll(){
     if(!confirm("Clear every order line?"))return;
-    sizes.length=0;sizes.push({mark:"",qty:"",w:"",h:""});
+    sizes.length=0;sizes.push(newOrderLine());
     sel=null;anchor={r:0,c:0};renderRows();}
 
   function flash(msg){
@@ -1777,4 +2226,10 @@ var XLS=(function(){
 })();
 </script>
 
+<div id="mprodOverlay" class="mprodOverlay hidden nopr" onclick="if(event.target===this)closeMuntinProduction()">
+  <div class="mprodModal">
+    <div class="mprodTop"><div><h3 id="mprodTitle">Muntin production</h3><div id="mprodMeta" class="mprodMeta"></div></div><button class="mprodClose" onclick="closeMuntinProduction()">×</button></div>
+    <div class="mprodBody"><div class="mprodControls" id="mprodControls"></div><div class="mprodDrawing" id="mprodDrawing"></div></div>
+  </div>
+</div>
 </body></html>
