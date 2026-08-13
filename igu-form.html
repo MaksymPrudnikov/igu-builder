@@ -1363,17 +1363,31 @@ function safeApplySaved(){
     return false;
   }
 }
+var SUPABASE_URL="https://eqayeedrzihmxhznoide.supabase.co";
+var SUPABASE_PUBLISHABLE_KEY="sb_publishable_v8PrLe6mr1X2VELeerRsQQ_e6GUdLTx";
 async function refreshCatalogOptional(){
-  /* The builder never depends on GitHub JSON. Embedded data is already live.
-     Admin changes in this browser have priority; GitHub JSON is only an optional refresh. */
-  if(safeApplySaved()){ renderAll(); return; }
+  /* Builder is already rendered from its embedded database.
+     Supabase is only an optional shared-data override. */
   try{
-    var r=await fetch("data/db.json",{cache:"no-store"});
-    if(!r.ok) return;
-    var remote=await r.json();
-    if(usableAdminDb(remote)){ applyBackendDb(remote); renderAll(); }
+    var url=SUPABASE_URL+"/rest/v1/app_data?id=eq.catalog&select=data,version,updated_at";
+    var r=await fetch(url,{
+      cache:"no-store",
+      headers:{
+        "apikey":SUPABASE_PUBLISHABLE_KEY,
+        "Accept":"application/json"
+      }
+    });
+    if(!r.ok) throw new Error("Supabase HTTP "+r.status);
+    var rows=await r.json();
+    var row=rows&&rows[0];
+    var remote=row&&row.data;
+    if(usableAdminDb(remote)){
+      applyBackendDb(remote);
+      renderAll();
+      console.info("Shared IGU catalog loaded from Supabase. Version:",row.version);
+    }
   }catch(err){
-    console.warn("Optional catalog refresh failed; embedded catalog remains active:",err);
+    console.warn("Shared catalog unavailable; embedded catalog remains active:",err);
   }
 }
 function bootApp(){
