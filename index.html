@@ -62,7 +62,7 @@
   .pmuh b{font-size:12.5px}
   .pmutag{color:var(--muted);font-size:11px}
   .pmark{font-size:10.5px;color:var(--soft);margin-top:5px;line-height:1.5}
-  .pbody{display:grid;grid-template-columns:minmax(0,1fr) 265px;gap:16px;align-items:start;margin-top:8px}
+  .pbody{display:block;margin-top:8px}
   .printAssembly{min-width:0;padding:2px 2px 0}
   .printAssemblyLabel{font-size:8.5px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);font-weight:650;margin:0 0 5px}
   .printAssemblyRows{border-top:1px solid var(--line)}
@@ -92,8 +92,8 @@
   .ptotal{margin-left:auto;font:600 10px/1.25 Consolas,monospace;color:var(--ink);white-space:nowrap}
   .pdiag{margin:0;max-width:100%;display:flex;align-items:center;justify-content:center;min-height:100%}
   .pdiag svg{display:block;width:100%;max-width:260px;max-height:2.25in}
-  .pdiagwrap{border:1px solid var(--line);border-radius:10px;background:#fcfbf8;padding:10px 10px 8px}
-  .pdiagcap{font-size:8.5px;letter-spacing:.7px;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:6px}
+  .pdiagwrap{border:1px solid var(--line);border-radius:10px;background:#fcfbf8;padding:12px 12px 10px}
+  .pdiagcap{display:none}
   .cfgbar{display:flex;align-items:center;gap:12px;margin:14px 0 16px}
   .cfgbar .cl{font-size:13px;font-weight:600;color:var(--ink)}
   .cfgseg{display:inline-flex;background:#e9e7e1;border-radius:8px;padding:3px;gap:2px}
@@ -201,7 +201,7 @@
 @media print{
   body{background:#fff;font-size:11px}
   .nopr,.addmu,.mutab .x,button.plus{display:none !important}
-  .wrap{max-width:none;padding:0.4in 0.45in}
+  .wrap{max-width:none;padding:0.4in 0.42in}
   .mutabs,.mulines,.cfgbar,.cols{display:none !important}
   .printonly{display:block !important}
   #printSheet{display:grid !important;grid-template-columns:1fr !important;gap:12px;align-items:start}
@@ -211,13 +211,13 @@
   .pseg{padding:6px 7px}
   .psegmain{font-size:9px}
   .psegdetail,.psegmeta{font-size:8.2px}
-  .pbody{grid-template-columns:minmax(0,1fr) 255px;gap:14px}
+  .pbody{display:block}
   .printAssemblyRow{grid-template-columns:45px minmax(0,1fr) auto;gap:6px;padding:6px 0}
   .pdiag svg{max-height:1.78in;max-width:255px}
   .ordlines,.standing,.signrow,.pmu{page-break-inside:avoid}
   .ordlines{padding:8px 10px}
   input{border-bottom-color:#e6e3db !important}
-  @page{size:Letter;margin:0}
+  @page{size: Letter landscape;margin:0}
 }
 </style>
 <style id="v8-redesign">
@@ -237,9 +237,10 @@
   .stepnum{width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;display:inline-flex;align-items:center;justify-content:center;font:600 10px/1 Consolas,monospace}
   .sectionhead h2{margin:0;font-size:12px;letter-spacing:.8px;color:var(--ink);font-weight:650}
   .sectiondesc{font-size:11px;color:var(--muted);margin-top:2px}
-  .ordergrid{display:grid;grid-template-columns:1.1fr 1fr 1fr .8fr;gap:14px}
+  .ordergrid{display:grid;grid-template-columns:1.15fr 1fr 1.15fr;gap:14px}
   .field label,.ordno label,.ordmeta label{display:block;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.65px;margin-bottom:2px}
   .field input,.ordno input,.ordmeta input{width:100%;border:0;border-bottom:1px solid var(--line);background:transparent;font:inherit;padding:4px 1px;outline:none}
+  #dateField{cursor:pointer}
   .field input:focus,.ordno input:focus,.ordmeta input:focus{border-bottom-color:var(--ink)}
   .ordhead,.ordmeta{display:none}
 
@@ -247,11 +248,11 @@
   .orderSection .ordlines th{padding:0 7px 6px}
   .orderSection .ordlines td{padding:6px 7px}
   .orderSection .ordlines tr:last-child td{border-bottom:0}
-  .orderSection .ordlines td:nth-child(5),.orderSection .ordlines td:nth-child(6){background:#fcfbf8}
-  .orderSection .ordlines th:nth-child(5),.orderSection .ordlines th:nth-child(6){font-size:10px;color:var(--soft)}
-  .orderSection .ordlines td:nth-child(5) input,.orderSection .ordlines td:nth-child(6) input{font-size:16px;font-weight:600;letter-spacing:.2px;padding:4px 2px 5px;font-family:Consolas,monospace}
-  .orderSection .ordlines td:nth-child(4) input{font-size:13px;font-weight:600}
-  .orderSection .ordlines td:nth-child(7){font-size:11.5px;font-family:Consolas,monospace}
+  .orderSection .ordlines td:nth-child(3),.orderSection .ordlines td:nth-child(4){background:#fcfbf8}
+  .orderSection .ordlines th:nth-child(3),.orderSection .ordlines th:nth-child(4){font-size:10px;color:var(--soft)}
+  .orderSection .ordlines td:nth-child(3) input,.orderSection .ordlines td:nth-child(4) input{font-size:16px;font-weight:600;letter-spacing:.2px;padding:4px 2px 5px;font-family:Consolas,monospace}
+  .orderSection .ordlines td:nth-child(2) input{font-size:13px;font-weight:600}
+  .orderSection .ordlines td:nth-child(6){font-size:11.5px;font-family:Consolas,monospace}
   .orderSection .plus{border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 10px;color:var(--soft)}
   .orderSection .plus:hover{border-color:var(--ink);color:var(--ink)}
 
@@ -373,8 +374,8 @@
 <style id="print-optimization-v14">
 @media print {
   @page {
-    size: Letter;
-    margin: 0.25in;
+    size: Letter landscape;
+    margin: 0.22in;
   }
 
   html, body {
@@ -454,7 +455,7 @@
 .shapeOverlay{padding:10px;background:rgba(27,29,31,.62)}
 .shapeModal.fabModal{width:min(1540px,99vw);height:min(900px,97vh);max-height:97vh;overflow:hidden;background:#f4f5f6;border-color:#c9ccd0;border-radius:12px;display:flex;flex-direction:column}
 .fabTop{flex:0 0 auto;padding:10px 14px;background:#202326;color:#fff;border-bottom:0}.fabTop h3{color:#fff;font-size:15px}.fabTop .shapeMeta{color:#aeb4ba}.fabTopTabs{margin-left:auto;display:flex;background:#151719;border-radius:7px;padding:2px}.fabTopTabs button{border:0;background:transparent;color:#aeb4ba;padding:6px 11px;border-radius:5px;font-size:10.5px}.fabTopTabs button.on{background:#fff;color:#202326}.fabTop .shapeClose{margin-left:4px;color:#c7ccd0}
-.fabShell{display:grid;grid-template-columns:270px minmax(520px,1fr) 360px;min-height:0;flex:1}.fabLeft,.fabRight{background:#fff;overflow:auto;padding:12px;border-right:1px solid #d9dce0}.fabRight{border-right:0;border-left:1px solid #d9dce0}.fabWorkspace{min-width:0;min-height:0;display:flex;flex-direction:column;background:#e9ebed}.fabPanelTitle{font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:#747a80;font-weight:700;margin:2px 0 8px}.fabDivider{height:1px;background:#e2e4e6;margin:13px -2px}.fabShapeGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.fabShapeBtn{display:flex;align-items:center;gap:7px;text-align:left;border:1px solid #d9dce0;border-radius:7px;background:#fff;padding:7px 8px;color:#333}.fabShapeBtn:hover{border-color:#9ca2a8}.fabShapeBtn.on{border-color:#e8792e;box-shadow:inset 0 0 0 1px #e8792e;background:#fff8f2}.fabShapeIcon{font-size:18px;width:22px;text-align:center}
+.fabShell{display:grid;grid-template-columns:270px minmax(520px,1fr) 360px;min-height:0;flex:1}.fabLeft,.fabRight{background:#fff;overflow:auto;padding:12px;border-right:1px solid #d9dce0}.fabRight{border-right:0;border-left:1px solid #d9dce0}.fabWorkspace{min-width:0;min-height:0;display:flex;flex-direction:column;background:#fff}.fabPanelTitle{font-size:9px;letter-spacing:.8px;text-transform:uppercase;color:#747a80;font-weight:700;margin:2px 0 8px}.fabDivider{height:1px;background:#e2e4e6;margin:13px -2px}.fabShapeGrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.fabShapeBtn{display:flex;align-items:center;gap:7px;text-align:left;border:1px solid #d9dce0;border-radius:7px;background:#fff;padding:7px 8px;color:#333}.fabShapeBtn:hover{border-color:#9ca2a8}.fabShapeBtn.on{border-color:#e8792e;box-shadow:inset 0 0 0 1px #e8792e;background:#fff8f2}.fabShapeIcon{font-size:18px;width:22px;text-align:center}
 .fabLeft input,.fabLeft select,.fabLeft textarea,.fabRight input,.fabRight select,.fabRight textarea{width:100%;border:1px solid #cfd3d6;border-radius:6px;padding:6px 7px;background:#fff;font:inherit}.fabCanvasHead{display:flex;justify-content:space-between;align-items:center;padding:8px 11px;background:#fff;border-bottom:1px solid #d9dce0;gap:12px}.fabCanvasHead b{display:block;font-size:11.5px}.fabCanvasHead span{font-size:9.5px;color:#858b91}.fabCanvasMeta{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.fabCanvasMeta span{font-size:9px;color:#555;background:#f2f3f4;border:1px solid #dddfe2;border-radius:12px;padding:3px 7px}.fabCanvas{flex:1;min-height:0;overflow:hidden;padding:8px;display:flex;align-items:center;justify-content:center}.fabCanvas svg{width:100%;height:100%;max-height:100%;background:#fff;border:1px solid #d8dbde;box-shadow:0 2px 10px rgba(0,0,0,.04);touch-action:none}.fabCanvasFoot{padding:6px 10px;background:#fff;border-top:1px solid #d9dce0;font-size:9.5px;color:#777;display:flex;align-items:center;gap:6px}.fabCanvasHint{margin-left:auto}.fabLegendDot,.fabDot{display:inline-block;width:8px;height:8px;border-radius:50%}.fabLegendDot.hole,.fabDot.hole{background:#e8792e}.fabLegendDot.hw,.fabDot.hw{background:#7b4aa0}
 .fabAddGrid{display:grid;gap:7px}.fabAddGrid>button,.fabAddHardware button{width:100%;border:1px solid #cfd3d6;background:#fff;border-radius:7px;padding:8px;text-align:left}.fabAddGrid button:hover{border-color:#777}.fabAddGrid button b{display:block;font-size:11px}.fabAddGrid button span{display:block;font-size:9px;color:#888;margin-top:2px}.fabAddHardware{display:grid;grid-template-columns:1fr;gap:5px}.fabAddHardware select{font-size:10.5px}.fabInspectorHead{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:9px}.fabInspectorHead b{display:block;font-size:12px}.fabInspectorHead span{display:block;color:#888;font-size:9.5px;margin-top:2px}.fabTrash{border:0;background:none;color:#9a4b3e;font-size:10px}.fabEmpty{border:1px dashed #cfd3d6;border-radius:8px;padding:12px;color:#777}.fabEmpty b{display:block;color:#333;margin-bottom:4px}.fabEmpty span{font-size:9.5px;line-height:1.4}
 .fabOpList{display:flex;flex-direction:column;gap:5px}.fabOpList button{display:grid;grid-template-columns:10px 1fr;gap:3px 6px;align-items:center;text-align:left;border:1px solid #e0e2e4;background:#fff;border-radius:6px;padding:6px}.fabOpList button.on{border-color:#777;background:#f7f7f7}.fabOpList button small{grid-column:2;color:#8a8f94;font-size:8.8px}.fabLibActions{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}.fabLibActions button,.fabFileBtn,.fabSecondary{border:1px solid #cfd3d6;background:#fff;border-radius:6px;padding:6px 8px;font-size:10px}.fabLibActions .primary{background:#202326;color:#fff;border-color:#202326}.fabFileBtn{position:relative;overflow:hidden;cursor:pointer}.fabFileBtn input{position:absolute;inset:0;opacity:0;cursor:pointer}
@@ -549,6 +550,648 @@
   @media(max-width:850px){.caOverlay{padding:0}.caModal{height:100vh;border-radius:0}.caBody{grid-template-columns:1fr}.caNav{border-right:0;border-bottom:1px solid #ddd;display:flex;gap:4px;overflow:auto}.caNavTitle{display:none}.caNav button{width:auto;white-space:nowrap}.caTableWrap{max-height:none}.caJson{height:60vh}}
   @media print{.caOverlay{display:none!important}}
 </style>
+
+<style id="github-print-landscape-order-v2">
+@media print {
+  @page { size: Letter landscape; margin: 0.25in; }
+
+  .orderMeta .ordergrid {
+    grid-template-columns: 1.2fr .95fr 1.05fr !important;
+    gap: 14px !important;
+    align-items: end !important;
+  }
+
+  .orderMeta .field label {
+    font-size: 9.5px !important;
+    font-weight: 700 !important;
+    color: #444 !important;
+    letter-spacing: .8px !important;
+    margin-bottom: 2px !important;
+  }
+
+  #company, #po, #orderNo {
+    font-size: 21px !important;
+    line-height: 1.05 !important;
+    font-weight: 800 !important;
+    letter-spacing: .35px !important;
+    color: #111 !important;
+    border-bottom: 2px solid #111 !important;
+    padding: 2px 1px 4px !important;
+  }
+
+  #company::placeholder, #po::placeholder, #orderNo::placeholder {
+    color: transparent !important;
+  }
+
+  .pmu {
+    border-width: 1px !important;
+  }
+
+  .pdiagwrap .printAssembly {
+    margin: 0 0 8px !important;
+    padding: 0 0 8px !important;
+    border-bottom: 1px solid #d8d4ca !important;
+  }
+
+  .pdiagwrap .printAssemblyLabel {
+    font-size: 8.6px !important;
+    letter-spacing: .9px !important;
+    color: #555 !important;
+    margin-bottom: 4px !important;
+  }
+
+  .pdiagwrap .printAssemblyRows {
+    border-top: 0 !important;
+  }
+
+  .pdiagwrap .printAssemblyRow {
+    grid-template-columns: 50px minmax(0,1fr) auto !important;
+    gap: 6px !important;
+    padding: 6px 0 !important;
+    font-size: 10px !important;
+  }
+
+  .pdiagwrap .printAssemblyRow .parType {
+    font-size: 8.6px !important;
+    font-weight: 800 !important;
+    color: #444 !important;
+  }
+
+  .pdiagwrap .printAssemblyRow .parSub {
+    font-size: 8.4px !important;
+  }
+
+  .pdiagwrap .printAssemblyRow .parEnd {
+    font-size: 8.6px !important;
+  }
+
+  .pdiagwrap .printAssemblyRow.cavityRow .parType {
+    font-size: 10px !important;
+    color: #111 !important;
+  }
+
+  .pdiagwrap .printAssemblyRow.cavityRow .cavitySpacer {
+    font-size: 13.5px !important;
+    line-height: 1.1 !important;
+    font-weight: 800 !important;
+  }
+
+  .pdiagwrap .printAssemblyRow.cavityRow .cavitySealant {
+    font-size: 10px !important;
+    line-height: 1.15 !important;
+  }
+
+  .pdiagwrap .printAssemblyRow.cavityRow .cavitySecondary {
+    font-size: 8.4px !important;
+    line-height: 1.25 !important;
+  }
+
+  .pdiagwrap .printAssemblyRow.cavityRow .parActual {
+    font-size: 8.4px !important;
+    font-weight: 700 !important;
+    color: #555 !important;
+  }
+
+  .pdiagwrap .printAssemblyRow.cavityRow .parEnd {
+    font-size: 11px !important;
+    color: #111 !important;
+  }
+  .pdiagcap { display: none !important; }
+
+  .pdiag {
+    padding-top: 1px !important;
+  }
+
+  .pdiag svg {
+    width: 100% !important;
+    max-width: 245px !important;
+    max-height: 1.68in !important;
+  }
+}
+</style>
+
+
+<style id="print-one-page-v3">
+@media print {
+  /* Keep the assembly data and IGU diagram inside one compact block. */
+  .pdiagwrap {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) 265px !important;
+    grid-template-rows: 1fr !important;
+    column-gap: 12px !important;
+    row-gap: 4px !important;
+    align-items: center !important;
+    padding: 8px 10px !important;
+  }
+
+  .pdiagwrap .printAssembly {
+    grid-column: 1 !important;
+    grid-row: 1 / 3 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-bottom: 0 !important;
+    align-self: stretch !important;
+  }
+
+  .pdiagwrap .pdiag {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    padding: 0 !important;
+    align-self: start !important;
+    min-height: 0 !important;
+  }
+
+  /* Diagram size restored to the original print size. */
+  .pdiagwrap .pdiag svg {
+    width: 100% !important;
+    max-width: 245px !important;
+    max-height: 1.68in !important;
+    margin: 0 auto !important;
+  }
+
+  /* Compact the rows slightly without reducing the emphasized cavity text. */
+  .pdiagwrap .printAssemblyRow {
+    padding: 4px 0 !important;
+  }
+
+  .pdiagwrap .printAssemblyLabel {
+    margin-bottom: 2px !important;
+  }
+
+  /* Do not force the entire order table onto a new page. */
+  .ordlines {
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+  }
+
+  .orderSection {
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .orderSection .ordlines {
+    padding: 4px 7px !important;
+  }
+
+  .orderSection .ordlines th {
+    padding-bottom: 1px !important;
+  }
+
+  .orderSection .ordlines td {
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
+  }
+
+  .orderSection .ordlines td:nth-child(3) input,
+  .orderSection .ordlines td:nth-child(4) input {
+    font-size: 13px !important;
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
+  }
+
+  .tot {
+    margin-top: 2px !important;
+  }
+
+  .footerCard {
+    margin-top: 4px !important;
+    padding-top: 3px !important;
+  }
+
+  .standing {
+    margin-top: 4px !important;
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+  }
+}
+</style>
+
+
+<style id="print-compact-v4">
+@media print {
+  /* Header: about 12% smaller than the previous print version. */
+  .orderMeta .field label {
+    font-size: 7.5px !important;
+    margin-bottom: 1px !important;
+  }
+  #company, #po, #orderNo {
+    font-size: 16px !important;
+    line-height: 1 !important;
+    padding: 1px 1px 2px !important;
+  }
+  .orderMeta .ordergrid {
+    gap: 10px !important;
+  }
+
+  /* Make-up block: target roughly 40% less vertical/visual footprint. */
+  .pmu {
+    padding: 5px 8px !important;
+  }
+  .pmuh {
+    gap: 7px !important;
+    font-size: 9.5px !important;
+    line-height: 1.1 !important;
+  }
+  .pmuh b {
+    font-size: 10.5px !important;
+  }
+  .pmutag {
+    font-size: 9px !important;
+  }
+  .pbody {
+    margin-top: 4px !important;
+  }
+  .pdiagwrap {
+    grid-template-columns: minmax(0, 1fr) 150px !important;
+    column-gap: 6px !important;
+    row-gap: 0 !important;
+    padding: 4px 6px !important;
+    border-radius: 7px !important;
+  }
+  .pdiagwrap .printAssembly {
+    align-self: center !important;
+  }
+  .pdiagwrap .printAssemblyLabel {
+    font-size: 7.4px !important;
+    letter-spacing: .65px !important;
+    margin-bottom: 1px !important;
+  }
+  .pdiagwrap .printAssemblyRow {
+    grid-template-columns: 38px minmax(0,1fr) auto !important;
+    gap: 4px !important;
+    padding: 2px 0 !important;
+    font-size: 8.6px !important;
+    line-height: 1.15 !important;
+  }
+  .pdiagwrap .printAssemblyRow .parType {
+    font-size: 7.5px !important;
+  }
+  .pdiagwrap .printAssemblyRow .parSub {
+    font-size: 7.1px !important;
+    margin-top: 1px !important;
+  }
+  .pdiagwrap .printAssemblyRow .parEnd {
+    font-size: 7.4px !important;
+    line-height: 1.08 !important;
+  }
+  .pdiagwrap .printAssemblyRow.cavityRow {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+    align-items: center !important;
+  }
+  .pdiagwrap .printAssemblyRow.cavityRow .parMain {
+    padding-top: 0 !important;
+    align-self: center !important;
+  }
+  .pdiagwrap .printAssemblyRow.cavityRow .parType {
+    font-size: 8.5px !important;
+    align-self: center !important;
+  }
+  .pdiagwrap .printAssemblyRow.cavityRow .cavitySpacer {
+    font-size: 10.3px !important;
+    line-height: 1.12 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  .pdiagwrap .printAssemblyRow.cavityRow .cavitySealant {
+    font-size: 8.5px !important;
+    line-height: 1.05 !important;
+    margin-top: 1px !important;
+  }
+  .pdiagwrap .printAssemblyRow.cavityRow .cavitySecondary {
+    font-size: 7.1px !important;
+    line-height: 1.08 !important;
+    margin-top: 1px !important;
+  }
+  .pdiagwrap .pdiag {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  .pdiagwrap .pdiag svg,
+  .pdiag svg {
+    width: 100% !important;
+    max-width: 128px !important;
+    max-height: 0.88in !important;
+    margin: 0 auto !important;
+  }
+}
+</style>
+
+
+<style id="print-makeup-highlight-v1">
+.muPrintLabel{display:none}
+@media print {
+  .orderSection tbody tr.orderMuAlt td {
+    border-top: 1.6px solid #111 !important;
+    border-bottom: 1.6px solid #111 !important;
+    background: #f1f1f1 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .orderSection tbody tr.orderMuAlt td:first-child {
+    border-left: 4px solid #111 !important;
+    padding-left: 7px !important;
+    font-weight: 800 !important;
+    color: #111 !important;
+  }
+  .orderSection tbody tr.orderMuAlt td:nth-last-child(2) {
+    border-right: 2px solid #111 !important;
+  }
+  .orderSection .muCell { white-space: nowrap !important; }
+  .orderSection .muBadge {
+    display:inline-flex !important;align-items:center !important;justify-content:center !important;
+    min-width:23px !important;height:18px !important;padding:0 5px !important;
+    border:1.5px solid #555 !important;border-radius:3px !important;background:#fff !important;color:#222 !important;
+    font-size:10px !important;font-weight:800 !important;line-height:1 !important;
+    -webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;
+  }
+  .orderSection tr.orderMuAlt .muBadge {
+    border:2px solid #111 !important;background:#111 !important;color:#fff !important;
+  }
+  .orderSection tr.orderMuAlt .muPrintLabel {
+    display:inline-block !important;margin-left:5px !important;font-size:8.5px !important;line-height:1 !important;
+    font-weight:900 !important;letter-spacing:.35px !important;color:#111 !important;vertical-align:middle !important;
+  }
+}
+</style>
+
+
+<style id="print-bw-final-v1">
+@media print {
+  /* Force a true black-and-white production sheet */
+  body, .wrap, #printSheet, .sectioncard, .pmu, .pdiagwrap, .ordlines, .standing, .signrow, .footerCard {
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+  }
+
+  * {
+    text-shadow: none !important;
+  }
+
+  .pmu, .pdiagwrap, .ordlines, .standing, .signrow, .footerCard,
+  .orderSection tbody tr.orderMuAlt td, .orderSection tbody tr td,
+  .orderSection thead th {
+    border-color: #000 !important;
+  }
+
+  .pmu {
+    border-left-color: #000 !important;
+    background: #fff !important;
+  }
+
+  .pmuh b, .pmutag, .ptotal,
+  .orderMeta .field label, #company, #po, #orderNo,
+  .printAssemblyLabel, .printAssemblyRow, .printAssemblyRow .parType,
+  .printAssemblyRow .parSub, .printAssemblyRow .parEnd,
+  .pmark, .psegmain, .psegdetail, .psegmeta,
+  .orderSection .ordlines th, .orderSection .ordlines td,
+  .tot, .footnote, .note, .field label, .sectiondesc {
+    color: #000 !important;
+  }
+
+  .badge, .orderSection .muBadge {
+    background: #fff !important;
+    color: #000 !important;
+    border: 1.5px solid #000 !important;
+    box-shadow: none !important;
+  }
+
+  .orderSection tr.orderMuAlt .muBadge {
+    background: #000 !important;
+    color: #fff !important;
+    border-color: #000 !important;
+  }
+
+  .orderSection tbody tr.orderMuAlt td {
+    background: #fff !important;
+    border-top: 2px solid #000 !important;
+    border-bottom: 2px solid #000 !important;
+  }
+
+  .orderSection tbody tr.orderMuAlt td:first-child {
+    border-left: 4px solid #000 !important;
+  }
+
+  .orderSection tbody tr.orderMuAlt td:nth-last-child(2) {
+    border-right: 2px solid #000 !important;
+  }
+
+  .orderSection .ordlines td:nth-child(3),
+  .orderSection .ordlines td:nth-child(4) {
+    background: #fff !important;
+  }
+
+  .orderSection .ordlines td input,
+  .orderSection .ordlines td:nth-child(3) input,
+  .orderSection .ordlines td:nth-child(4) input,
+  .field input, .ordno input, .ordmeta input {
+    color: #000 !important;
+    background: transparent !important;
+    border-bottom-color: #777 !important;
+  }
+
+  .orderSection .ordlines tr,
+  .printAssemblyRow,
+  .pdiagwrap .printAssembly,
+  .pdiagwrap .printAssemblyRows,
+  .footnote,
+  .standing,
+  .signrow {
+    background: #fff !important;
+  }
+
+  /* suppress warm/colored fills used on screen */
+  .pseg, .pseg.cavity, .pmu, .pdiagwrap, .pbody, .pdiag, .ordlines {
+    background-image: none !important;
+    background-color: #fff !important;
+  }
+
+  /* Make all SVGs print in grayscale */
+  svg {
+    filter: grayscale(1) contrast(1.18) brightness(0.98) !important;
+    color-interpolation-filters: sRGB !important;
+  }
+
+  /* Ensure lines around the main make-up block are black */
+  .pdiagwrap, .pmu, .ordlines {
+    border-width: 1px !important;
+  }
+
+  .pmu .badge {
+    font-weight: 800 !important;
+  }
+}
+</style>
+
+
+<style id="print-line-spacing-fix-v1">
+@media print {
+  /* Keep header underlines visually separate from the make-up frame. */
+  .orderMeta {
+    margin-bottom: 5px !important;
+    padding-bottom: 0 !important;
+  }
+
+  .orderMeta .ordergrid {
+    margin-bottom: 2px !important;
+  }
+
+  #company, #po, #orderNo {
+    border-bottom-width: 1.4px !important;
+  }
+
+  #printSheet {
+    margin-top: 3px !important;
+  }
+
+  #printSheet .pmu:first-child {
+    margin-top: 0 !important;
+  }
+
+  /* One line per boundary — avoid stacked section borders. */
+  .footerCard {
+    margin-top: 8px !important;
+  }
+
+  .standing {
+    margin-bottom: 6px !important;
+  }
+}
+</style>
+
+
+<style id="print-orderlines-production-clean-v1">
+@media print {
+  /* Production table: one visual separator per row, no form-style underlines. */
+  .orderSection .ordlines table {
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+  }
+
+  .orderSection .ordlines thead th {
+    border: 0 !important;
+    border-bottom: 1.6px solid #000 !important;
+    padding: 0 6px 4px !important;
+    font-size: 8.4px !important;
+    font-weight: 650 !important;
+    letter-spacing: .45px !important;
+    vertical-align: bottom !important;
+  }
+
+  .orderSection .ordlines tbody tr:not(.orderMuAlt) td {
+    border: 0 !important;
+    border-bottom: .75px solid #8a8a8a !important;
+  }
+
+  .orderSection .ordlines tbody td {
+    padding: 5px 6px !important;
+    vertical-align: middle !important;
+    line-height: 1.1 !important;
+    background: #fff !important;
+  }
+
+  /* Inputs should print like production data, not editable form fields. */
+  .orderSection .ordlines tbody td input,
+  .orderSection .ordlines tbody td:nth-child(3) input,
+  .orderSection .ordlines tbody td:nth-child(4) input {
+    border: 0 !important;
+    border-bottom: 0 !important;
+    box-shadow: none !important;
+    outline: 0 !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+    color: #000 !important;
+  }
+
+  /* Production column proportions: prioritize QTY / WIDTH / HEIGHT. */
+  .orderSection .ordlines thead th:nth-child(1),
+  .orderSection .ordlines tbody td:nth-child(1) { width: 6% !important; }
+  .orderSection .ordlines thead th:nth-child(2),
+  .orderSection .ordlines tbody td:nth-child(2) { width: 10% !important; }
+  .orderSection .ordlines thead th:nth-child(3),
+  .orderSection .ordlines tbody td:nth-child(3) { width: 27% !important; }
+  .orderSection .ordlines thead th:nth-child(4),
+  .orderSection .ordlines tbody td:nth-child(4) { width: 27% !important; }
+  .orderSection .ordlines thead th:nth-child(5),
+  .orderSection .ordlines tbody td:nth-child(5) { width: 13% !important; }
+  .orderSection .ordlines thead th:nth-child(6),
+  .orderSection .ordlines tbody td:nth-child(6) { width: 9% !important; }
+  .orderSection .ordlines thead th:nth-child(7),
+  .orderSection .ordlines tbody td:nth-child(7) { width: 8% !important; }
+
+  /* LINE */
+  .orderSection .ordlines tbody td:nth-child(1) {
+    font-size: 10px !important;
+    font-weight: 600 !important;
+  }
+
+  /* QTY */
+  .orderSection .ordlines tbody td:nth-child(2),
+  .orderSection .ordlines tbody td:nth-child(2) input {
+    text-align: center !important;
+    font-size: 11.5px !important;
+    font-weight: 800 !important;
+  }
+
+  /* WIDTH / HEIGHT */
+  .orderSection .ordlines tbody td:nth-child(3) input,
+  .orderSection .ordlines tbody td:nth-child(4) input {
+    font-family: Consolas, "Courier New", monospace !important;
+    font-size: 13.5px !important;
+    font-weight: 800 !important;
+    letter-spacing: .1px !important;
+  }
+
+  /* MARK — deliberately secondary on the production sheet. */
+  .orderSection .ordlines thead th:nth-child(5),
+  .orderSection .ordlines tbody td:nth-child(5),
+  .orderSection .ordlines tbody td:nth-child(5) input {
+    font-size: 9.5px !important;
+    font-weight: 600 !important;
+  }
+
+  /* SQ-FT — compact and centered. */
+  .orderSection .ordlines thead th:nth-child(6),
+  .orderSection .ordlines tbody td:nth-child(6) {
+    text-align: center !important;
+    font-family: Consolas, "Courier New", monospace !important;
+    font-size: 9px !important;
+    font-weight: 600 !important;
+    white-space: nowrap !important;
+  }
+
+
+  .orderSection .ordlines thead th:nth-child(2),
+  .orderSection .ordlines thead th:nth-child(7) {
+    text-align: center !important;
+  }
+
+  /* M-U */
+  .orderSection .ordlines tbody td:nth-child(7) {
+    text-align: center !important;
+  }
+
+  /* Preserve stronger make-up-change highlighting without double lines. */
+  .orderSection .ordlines tbody tr.orderMuAlt td {
+    border-top: 1.8px solid #000 !important;
+    border-bottom: 1.8px solid #000 !important;
+  }
+
+  .orderSection .ordlines tbody tr.orderMuAlt td:first-child {
+    border-left: 4px solid #000 !important;
+  }
+
+  .orderSection .ordlines tbody tr.orderMuAlt td:nth-last-child(2) {
+    border-right: 1.8px solid #000 !important;
+  }
+}
+</style>
+
 </head><body><div class="wrap">
 
 <div class="topbar nopr">
@@ -572,7 +1215,6 @@
   </div>
   <div class="ordergrid">
     <div class="field"><label>Company</label><input id="company" placeholder="Company"></div>
-    <div class="field"><label>Project</label><input id="project" placeholder="Project"></div>
     <div class="field"><label>PO #</label><input id="po" placeholder="PO"></div>
     <div class="field"><label>Order #</label><input id="orderNo" placeholder="Order number"></div>
   </div>
@@ -634,9 +1276,9 @@
   </div>
   <div class="ordlines">
     <table><thead><tr>
-      <th style="width:5%">Line</th><th style="width:6%">M-U</th><th style="width:17%">Mark</th>
-      <th style="width:8%">Qty</th><th style="width:24%">Width</th><th style="width:24%">Height</th>
-      <th style="width:10%">Sq-ft</th><th style="width:10%" class="nopr">Production</th>
+      <th style="width:4%">Line</th><th style="width:6%">Qty</th><th style="width:19%">Width</th>
+      <th style="width:19%">Height</th><th style="width:16%">Mark</th><th style="width:8%">Sq-ft</th>
+      <th style="width:6%">M-U</th><th style="width:22%" class="nopr">Production</th>
     </tr></thead><tbody id="rows"></tbody></table>
     <div id="tot" class="tot"></div>
     <div class="nopr gridbar">
@@ -662,7 +1304,7 @@
   <div class="footerCard">
     <div class="field"><label>Notes</label><input id="notes"></div>
     <div class="field"><label>Prepared by</label><input id="preparedBy"></div>
-    <div class="field"><label>Date</label><input id="dateField"></div>
+    <div class="field"><label>Due Date</label><input id="dateField" type="date"></div>
   </div>
 </section>
 
@@ -1069,7 +1711,7 @@ function cavityHTML(G,i){
   G=normalizeCavityModel(G);var so="",M=G.muntin,P=muntinProduct(M.productId),C=muntinColors(M);
   for(var k=0;k<SPACER.length;k++)so+='<option value="'+SPACER[k].c+'"'+(SPACER[k].c===G.sp?' selected':'')+'>'+SPACER[k].c+' — '+SPACER[k].n+'</option>';
   var po=MUNTIN_BARS.filter(function(x){return x.enabled!==false;}).map(function(x){return '<option value="'+esc(x.id)+'"'+(x.id===M.productId?' selected':'')+'>'+esc(x.label)+'</option>';}).join('');
-  var h='<div class="gap"><div class="lh"><span class="t">Cavity '+(i+1)+'</span><span style="flex:1"></span><span class="mm">'+cavityMM(G.w).toFixed(1)+' mm</span></div>'
+  var h='<div class="gap"><div class="lh"><span class="t">Cavity '+(i+1)+'</span><span style="flex:1"></span></div>'
     +'<div class="row"><div><div class="lbl">Width</div><select onchange="setG('+i+',\'w\',this.value)">'+opt(spacerOf(G.sp).s,G.w,function(x){return x+'″';})+'</select></div>'
     +'<div><div class="lbl">Spacer</div><select onchange="setG('+i+',\'sp\',this.value)">'+so+'</select></div>'
     +'<div><div class="lbl">Gas</div><select onchange="setG('+i+',\'gas\',this.value)">'+opt(GAS,G.gas)+'</select></div>'
@@ -1395,7 +2037,7 @@ function printMuntinProduction(){
   if(MPROD.line<0)return;var x=mpModel(),S=x.S;x.geo=productionGeometryForLine(x.M,S);var P=muntinProduct(x.M.productId),C=muntinColors(x.M),geo=x.geo,shapeName=(S.shape&&typeof shapeLabel==='function')?shapeLabel(S.shape.type):'Rectangle';
   var rows=muntinBomRows(geo),win=window.open('','_blank','width=900,height=1200');if(!win)return alert('Pop-up blocked. Allow pop-ups to print the production drawing.');
   var adaptiveNote=geo.shapeAdaptive?' Shape-adaptive mode: each bar is intersected with the actual glass perimeter and receives its own nominal cut length. DLO at raked/curved edges is not constant.':'';
-  win.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Muntin Production '+esc(S.mark||('Line '+(MPROD.line+1)))+'</title><style>@page{size:portrait;margin:8mm}body{font:11px/1.25 Arial;margin:0;color:#222}.page{max-width:100%;margin:0 auto}h1{font-size:18px;margin:0 0 4px}.meta{color:#666;margin-bottom:8px;font-size:10.2px}.drawing{margin:0 0 8px;text-align:center;page-break-inside:avoid}.drawing svg{width:100%;height:auto;max-height:64vh}table{width:100%;border-collapse:collapse;margin-top:8px;font-size:10.5px;page-break-inside:avoid}th,td{border:1px solid #bbb;padding:4px 5px;text-align:left;vertical-align:top}th{background:#eee}.note{margin-top:8px;font-size:9.5px;color:#666}thead{display:table-header-group}tr,img,svg{page-break-inside:avoid}</style></head><body><div class="page"><h1>Muntin Production Drawing</h1><div class="meta">Line '+(MPROD.line+1)+' · '+esc(S.mark||'No mark')+' · '+esc(shapeName)+' · envelope '+esc(dimIn(geo.spanW))+' × '+esc(dimIn(geo.spanH))+' · Make-up '+letter(x.pair.index)+' · Cavity '+(MPROD.cavity+1)+' · '+esc(P.label)+' · Exterior '+esc(C.exterior.name)+' / Interior '+esc(C.interior.name)+'</div><div class="drawing">'+mpSvg(x)+'</div><table><thead><tr><th>ID</th><th>Orientation</th><th>Nominal cut</th><th>Bar reference</th></tr></thead><tbody>'+rows+'</tbody></table><div class="note">Edge inset X '+dimIn(geo.ix)+' · Edge inset Y '+dimIn(geo.iy)+' · Bar end clearance '+dimIn(geo.ec)+' · Layout grid 1/16&#8243;.'+adaptiveNote+' Bar references are face edges from the datum; centreline is secondary. Verify shop-specific connector/notching allowances and final physical fit before fabrication.</div></div><script>window.onload=function(){setTimeout(function(){window.print()},250)}<\/script></body></html>');win.document.close();
+  win.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Muntin Production '+esc(S.mark||('Line '+(MPROD.line+1)))+'</title><style>@page{size:Letter landscape;margin:8mm}body{font:11px/1.25 Arial;margin:0;color:#222}.page{max-width:100%;margin:0 auto}h1{font-size:18px;margin:0 0 4px}.meta{color:#666;margin-bottom:8px;font-size:10.2px}.drawing{margin:0 0 8px;text-align:center;page-break-inside:avoid}.drawing svg{width:100%;height:auto;max-height:64vh}table{width:100%;border-collapse:collapse;margin-top:8px;font-size:10.5px;page-break-inside:avoid}th,td{border:1px solid #bbb;padding:4px 5px;text-align:left;vertical-align:top}th{background:#fff}.note{margin-top:8px;font-size:9.5px;color:#666}thead{display:table-header-group}tr,img,svg{page-break-inside:avoid}</style></head><body><div class="page"><h1>Muntin Production Drawing</h1><div class="meta">Line '+(MPROD.line+1)+' · '+esc(S.mark||'No mark')+' · '+esc(shapeName)+' · envelope '+esc(dimIn(geo.spanW))+' × '+esc(dimIn(geo.spanH))+' · Make-up '+letter(x.pair.index)+' · Cavity '+(MPROD.cavity+1)+' · '+esc(P.label)+' · Exterior '+esc(C.exterior.name)+' / Interior '+esc(C.interior.name)+'</div><div class="drawing">'+mpSvg(x)+'</div><table><thead><tr><th>ID</th><th>Orientation</th><th>Nominal cut</th><th>Bar reference</th></tr></thead><tbody>'+rows+'</tbody></table><div class="note">Edge inset X '+dimIn(geo.ix)+' · Edge inset Y '+dimIn(geo.iy)+' · Bar end clearance '+dimIn(geo.ec)+' · Layout grid 1/16&#8243;.'+adaptiveNote+' Bar references are face edges from the datum; centreline is secondary. Verify shop-specific connector/notching allowances and final physical fit before fabrication.</div></div><script>window.onload=function(){setTimeout(function(){window.print()},250)}<\/script></body></html>');win.document.close();
 }
 
 function addT(key,s){LITES[idx(key)].trs.push({s:s,t:"Silk screen / frit"});renderAll();}
@@ -1498,7 +2140,8 @@ function crossSVG(big){
   var x=x0+(avail-used)/2,o="",surfs="";
   var defs='<defs>'+
     '<linearGradient id="glassSheen" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".60"/><stop offset=".45" stop-color="#ffffff" stop-opacity=".08"/><stop offset="1" stop-color="#b7d1d0" stop-opacity=".20"/></linearGradient>'+
-    '<pattern id="desicc2" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="2.5" r=".75" fill="rgba(255,255,255,.58)"/></pattern></defs>';
+    '<pattern id="desicc2" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="2.5" r=".75" fill="rgba(255,255,255,.58)"/></pattern>'+
+    '<pattern id="coatHatch" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="5" stroke="#555" stroke-width="1.2"/></pattern></defs>';
   for(var e=0;e<els.length;e++){
     var el=els[e], w=widths[e];
     if(el.k==="l"){
@@ -1511,7 +2154,7 @@ function crossSVG(big){
         o+='<rect x="'+ix.toFixed(1)+'" y="'+(y0+2)+'" width="'+Math.max(2,w*.08).toFixed(1)+'" height="'+(bh-4)+'" fill="#efe4c8" fill-opacity=".9"/>';
       }
       var cf=coatedOf(L),fr=fritOf(L);
-      if(cf){var cx=(cf.side===1)?x+1:x+w-1;o+='<line x1="'+cx.toFixed(1)+'" y1="'+(y0+4)+'" x2="'+cx.toFixed(1)+'" y2="'+(y0+bh-4)+'" stroke="#2f7fb5" stroke-width="3.2" stroke-dasharray="7 4" stroke-linecap="round"/>';}
+      if(cf){var cx=(cf.side===1)?x+1:x+w-1, coatStroke=big?"#111111":"#2f6fb5", coatWidth=big?1.8:2.6, coatDash=big?"5 3":"6 4";if(big){var bandW=8,bandX=(cf.side===1)?cx:(cx-bandW),bandY=y0+4,bandH=bh-8;o+='<rect x="'+bandX.toFixed(1)+'" y="'+bandY.toFixed(1)+'" width="'+bandW+'" height="'+bandH+'" fill="url(#coatHatch)" fill-opacity=".72" stroke="#444" stroke-width="1.05"/>'; }o+='<line x1="'+cx.toFixed(1)+'" y1="'+(y0+4)+'" x2="'+cx.toFixed(1)+'" y2="'+(y0+bh-4)+'" stroke="'+coatStroke+'" stroke-width="'+coatWidth+'" stroke-dasharray="'+coatDash+'" stroke-linecap="butt"/>';if(big){var isLowe=(coatKind(L.lbl)==="Low-E"),coatLabel=isLowe?"LoE":"COATED",tw=isLowe?25:42,th=12,tx=(cf.side===1)?(x+11):(x+w-tw-11),ty=y0+bh*.46;o+='<g pointer-events="none"><rect x="'+tx.toFixed(1)+'" y="'+ty.toFixed(1)+'" width="'+tw+'" height="'+th+'" rx="3" fill="#fff" stroke="#111" stroke-width="1"/><text x="'+(tx+tw/2).toFixed(1)+'" y="'+(ty+8.4).toFixed(1)+'" text-anchor="middle" font-size="7.5" font-family="Arial" font-weight="700" fill="#111">'+coatLabel+'</text></g>';}}
       if(L.kind==="spandrel"){var px=(L.pside===1)?x+2:x+w-7;o+='<rect x="'+px.toFixed(1)+'" y="'+(y0+3)+'" width="5" height="'+(bh-6)+'" fill="'+hexPaint(L.paint)+'" opacity=".92"/>';}
       if(fr){var fx=(fr.side===1)?x+2:x+w-5;o+='<rect x="'+fx.toFixed(1)+'" y="'+(y0+4)+'" width="3" height="'+(bh-8)+'" fill="'+(fr.color==="Acid Etched"?"#c9c5ba":"#fff")+'" opacity=".88"/>';}
       var aSel=(sel==="#"+s1),bSel=(sel==="#"+s2),cy=28;
@@ -1772,7 +2415,7 @@ function assemblyRowsHTML(){
     if(L.kind==="spandrel") extras.push("spandrel S"+L.pside);
     if(fr) extras.push("frit S"+fr.side);
     h+='<div class="assemblyRow"><div class="arType">Lite '+(i+1)+'</div><div class="arMain"><b>'+esc(glass)+'</b>'+(extras.length?' · '+esc(extras.join(' · ')):'')+'</div><div class="arEnd">'+mm.toFixed(2)+' mm · #'+surfN(i)+'/ #'+(surfN(i)+1)+'</div></div>';
-    if(i<GAPS.length){var G=GAPS[i],SP=spacerOf(G.sp),MS=muntinSummary(G.muntin);h+='<div class="assemblyRow"><div class="arType">Cavity '+(i+1)+'</div><div class="arMain"><b>'+esc(G.gas)+'</b> · '+esc(SP.n)+' · '+esc(G.seal)+(MS?' · <b>Muntin:</b> '+esc(MS):'')+'</div><div class="arEnd">'+esc(G.w)+'″ · '+cavityMM(G.w).toFixed(1)+' mm</div></div>';}
+    if(i<GAPS.length){var G=GAPS[i],SP=spacerOf(G.sp),MS=muntinSummary(G.muntin);h+='<div class="assemblyRow"><div class="arType">Cavity '+(i+1)+'</div><div class="arMain"><b>'+esc(G.gas)+'</b> · '+esc(SP.n)+' · '+esc(G.seal)+(MS?' · <b>Muntin:</b> '+esc(MS):'')+'</div><div class="arEnd">'+esc(G.w)+'″</div></div>';}
   }
   return h;
 }
@@ -1899,7 +2542,7 @@ function printCavityBlock(G,i){
     +'<div class="pseghead"><span class="pcode">C'+(i+1)+'</span><span class="pkind">Cavity '+(i+1)+'</span></div>'
     +'<div class="psegmain"><b>'+esc(SP.n)+' · '+esc(G.w)+'″</b></div>'
     +(seal?'<div class="psegdetail">'+esc(seal)+'</div>':'')
-    +'<div class="psegmeta">'+esc(secondary)+(secondary?' · ':'')+cavityMM(G.w).toFixed(1)+' mm actual</div>'
+    +'<div class="psegmeta">'+esc(secondary)+'</div>'
     +'</div>';
 }
 function printAssemblyRowsHTML(mu){
@@ -1913,8 +2556,9 @@ function printAssemblyRowsHTML(mu){
     if(L.heat) extras.push(L.heat);
     h+='<div class="printAssemblyRow"><div class="parType">L'+(i+1)+'</div><div class="parMain"><b>'+esc(glass)+'</b>'+(extras.length?'<span class="parSub">'+esc(extras.join(' · '))+'</span>':'')+'</div><div class="parEnd"><span class="parNominal">'+fmtMmNominal(nominal)+' mm</span><br>#'+surfN(i)+' / #'+(surfN(i)+1)+'</div></div>';
     if(i<mu.gaps.length){
-      var G=mu.gaps[i],SP=spacerOf(G.sp),MS=muntinSummary(G.muntin),gasTxt=String(G.gas||'').trim(),seal=sealantLabel(G.seal),secondary=[gasTxt].concat(MS?["Muntin: "+MS]:[]).filter(Boolean).join(' · ');
-      h+='<div class="printAssemblyRow cavityRow"><div class="parType">C'+(i+1)+'</div><div class="parMain"><span class="cavitySpacer">'+esc(SP.n)+' · '+esc(G.w)+'″</span>'+(seal?'<span class="cavitySealant">'+esc(seal)+'</span>':'')+'<span class="cavitySecondary">'+esc(secondary)+'</span></div><div class="parEnd"><span class="parActual">ACTUAL CAVITY</span><br>'+cavityMM(G.w).toFixed(1)+' mm</div></div>';
+      var G=mu.gaps[i],SP=spacerOf(G.sp),gasTxt=String(G.gas||'').trim()||'No gas',seal=sealantLabel(G.seal)||'No sealant';
+      var cavityLine=[SP.n+' · '+G.w+'″',gasTxt,seal].filter(Boolean).join(' · ');
+      h+='<div class="printAssemblyRow cavityRow"><div class="parType">C'+(i+1)+'</div><div class="parMain"><span class="cavitySpacer">'+esc(cavityLine)+'</span></div><div class="parEnd"></div></div>';
     }
   }
   return '<div class="printAssembly"><div class="printAssemblyLabel">Assembly layers</div><div class="printAssemblyRows">'+h+'</div></div>';
@@ -1939,8 +2583,7 @@ function printSheetHTML(){
      +'<span class="pmutag">'+(mus[i].lites.length===1?"single lite":mus[i].lites.length===2?"double":mus[i].lites.length===3?"triple":"custom")+'</span>'
      +'<span class="ptotal">'+tot.toFixed(2)+' mm · '+(tot/25.4).toFixed(3)+'″</span></div>'
      +'<div class="pbody">'
-     +  printAssemblyRowsHTML(mus[i])
-     +  '<div class="pdiagwrap"><div class="pdiagcap">IGU build-up</div><div class="pdiag">'+diag+'</div></div>'
+     +  '<div class="pdiagwrap">'+printAssemblyRowsHTML(mus[i])+'<div class="pdiag">'+diag+'</div></div>'
      +'</div>'
      +'</div>';
   }
@@ -1957,13 +2600,13 @@ function rowsHTML(){
   for(var i=0;i<sizes.length;i++){
     var S=sizes[i],mi=muOfLine(i+1),q=parseFloat(S.qty)||0,a=q*inch(S.w)*inch(S.h)/144;
     tq+=q;ta+=a;
-    h+='<tr'+(mi?' style="background:#faf9f6"':'')+'><td style="color:var(--muted);font-size:11px">'+(i+1)+'</td>'
-     +'<td><span class="badge" style="background:'+MUCOL[mi%MUCOL.length]+'">'+letter(mi)+'</span></td>'
-     +'<td><input id="sz_'+i+'_mark" value="'+esc(S.mark)+'" oninput="setS('+i+',\'mark\',this.value)"></td>'
+    h+='<tr class="orderMuRow '+(mi?'orderMuAlt':'orderMuBase')+'" data-mu="'+letter(mi)+'"'+(mi?' style="background:#faf9f6"':'')+'><td style="color:var(--muted);font-size:11px">'+(i+1)+'</td>'
      +'<td><input id="sz_'+i+'_qty" value="'+esc(S.qty)+'" oninput="setS('+i+',\'qty\',this.value)"></td>'
      +'<td><input id="sz_'+i+'_w" value="'+esc(S.w)+'" placeholder="in" oninput="setS('+i+',\'w\',this.value)"></td>'
      +'<td><input id="sz_'+i+'_h" value="'+esc(S.h)+'" placeholder="in" oninput="setS('+i+',\'h\',this.value)"></td>'
+     +'<td><input id="sz_'+i+'_mark" value="'+esc(S.mark)+'" oninput="setS('+i+',\'mark\',this.value)"></td>'
      +'<td style="font-size:11px;color:var(--soft)">'+(a?a.toFixed(1):"")+'</td>'
+     +'<td class="muCell"><span class="badge muBadge" style="background:'+MUCOL[mi%MUCOL.length]+'">'+letter(mi)+'</span><span class="muPrintLabel">MAKE-UP '+letter(mi)+'</span></td>'
      +'<td class="nopr">'+(muntinCavityIndexes(mus[mi]).length?'<button class="mprodBtn" onclick="openMuntinProduction('+i+')">Muntin drawing</button> ':'')+'<button class="mprodBtn" onclick="openShapeProduction('+i+')">Glass CAD / Drawing</button> <button class="x" style="border:0;background:none;color:var(--muted);font-size:15px" onclick="delS('+i+')">\u00d7</button></td></tr>';
   }
   var per=[];
@@ -2123,7 +2766,7 @@ standaloneCatalogLoadOverrides();
 function bootApp(){
   document.getElementById("dateField").value=new Date().toLocaleDateString("en-CA");
   /* Standalone rule: render exclusively from the embedded full catalog. */
-  addS(5);
+  // Start with a single order line; users can add more manually.
   renderAll();
   var modelCheck=validateIGUModelV2();
   if(!modelCheck.ok)console.warn("IGU Data Model v2 validation:",modelCheck.issues);
@@ -2727,11 +3370,12 @@ function ssDimSVG(S,X,Y,box,opt){
     <h3>Paste from Excel</h3>
     <div class="xsub">Copy a block of cells in Excel or Google Sheets, then paste it below (Ctrl+V).
       Tab, comma and semicolon separated data are all accepted. Fractions like <b>12 1/2</b> are kept as typed.</div>
-    <textarea id="xlsText" placeholder="Mark&#9;Qty&#9;Width&#9;Height&#10;A-01&#9;4&#9;24 1/2&#9;60&#10;A-02&#9;6&#9;30&#9;72"></textarea>
+    <textarea id="xlsText" placeholder="Qty&#9;Width&#9;Height&#9;Mark&#10;4&#9;24 1/2&#9;60&#9;A-01&#10;6&#9;30&#9;72&#9;A-02"></textarea>
     <div class="xrow">
       <span>Columns:</span>
       <select id="xlsMap">
         <option value="auto">Auto-detect</option>
+        <option value="qty,w,h,mark">Qty · Width · Height · Mark</option>
         <option value="mark,qty,w,h">Mark · Qty · Width · Height</option>
         <option value="qty,w,h">Qty · Width · Height</option>
         <option value="w,h">Width · Height</option>
@@ -2753,8 +3397,8 @@ function ssDimSVG(S,X,Y,box,opt){
 
 <script>
 var XLS=(function(){
-  var COLS=["mark","qty","w","h"];
-  var CIDX={mark:0,qty:1,w:2,h:3};
+  var COLS=["qty","w","h","mark"];
+  var CIDX={qty:0,w:1,h:2,mark:3};
   var LABEL={mark:"Mark",qty:"Qty",w:"Width",h:"Height"};
   var sel=null, anchor={r:0,c:0}, dragging=false;
 
@@ -2824,7 +3468,7 @@ var XLS=(function(){
 
   function autoMap(rows){
     var w=0;for(var i=0;i<rows.length;i++)w=Math.max(w,rows[i].length);
-    if(w>=4)return ["mark","qty","w","h"];
+    if(w>=4)return ["qty","w","h","mark"];
     if(w===3)return ["qty","w","h"];
     if(w===2)return ["w","h"];
     return ["w"];}
@@ -3009,10 +3653,10 @@ var XLS=(function(){
     close();}
 
   function copyTable(){
-    var out=["Line\tMark\tQty\tWidth\tHeight\tSq-ft"];
+    var out=["Line\tQty\tWidth\tHeight\tMark\tSq-ft\tM-U"];
     for(var i=0;i<sizes.length;i++){
-      var S=sizes[i],q=parseFloat(S.qty)||0,a=q*inch(S.w)*inch(S.h)/144;
-      out.push([(i+1),S.mark||"",S.qty||"",S.w||"",S.h||"",a?a.toFixed(1):""].join("\t"));}
+      var S=sizes[i],q=parseFloat(S.qty)||0,a=q*inch(S.w)*inch(S.h)/144,mi=muOfLine(i+1);
+      out.push([(i+1),S.qty||"",S.w||"",S.h||"",S.mark||"",a?a.toFixed(1):"",letter(mi)].join("\t"));}
     toClipboard(out.join("\n"));
     flash("Table copied to clipboard");}
 
@@ -3580,7 +4224,7 @@ function fabShopSvg(S){var G=shapeGeometry(S);if(!G.ok)return '<div>'+esc(G.erro
       +'<text x="'+bx+'" y="'+(py-1.5)+'" font-family="Arial" font-size="9.5" font-weight="700" fill="#111">'+esc(txt)+'</text></g>';
   });
   o+='<g font-family="Arial" fill="#333"><text x="8" y="'+(VH-20)+'" font-size="10">DATUM: LOWER LEFT · X → RIGHT · Y → UP</text><text x="8" y="'+(VH-6)+'" font-size="10">DIMENSIONS: INCHES · DRAWING: NTS</text></g>';return '<svg viewBox="0 0 '+VW+' '+VH+'" xmlns="http://www.w3.org/2000/svg">'+o+'</svg>';}
-function printShapeProduction(){var S=shapeLine();if(!S)return;var mi=muOfLine(SHAPE_UI.line+1),G=shapeGeometry(S),area=shapeArea(G,S),mu=mus[mi];if(!G.ok){alert(G.error);return;}var win=window.open('','_blank','width=950,height=1200');if(!win)return alert('Pop-up blocked. Allow pop-ups to print the production drawing.');var muText=markStr(mu,mi),company=(document.getElementById('company')||{}).value||'',project=(document.getElementById('project')||{}).value||'',po=(document.getElementById('po')||{}).value||'',ord=(document.getElementById('orderNo')||{}).value||'',ow=(G.maxX==null?G.W:G.maxX)-(G.minX==null?0:G.minX),oh=(G.maxY==null?G.H:G.maxY)-(G.minY==null?0:G.minY);win.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Glass Drawing '+esc(S.mark||('Line '+(SHAPE_UI.line+1)))+'</title><style>@page{size:Letter portrait;margin:7mm}*{box-sizing:border-box}body{font:9.5px/1.25 Arial;margin:0;color:#111}.sheet{height:10.3in;border:1px solid #a8a8a8;display:grid;grid-template-rows:auto 1fr auto}.head{display:grid;grid-template-columns:150px 1fr 190px;border-bottom:1px solid #999;min-height:66px}.brand,.title,.ord{padding:8px}.brand{border-right:1px solid #bbb}.brand b{font-size:14px;letter-spacing:.4px}.brand span,.ord span{display:block;color:#666;font-size:8.5px;margin-top:2px}.title{text-align:center}.title b{font-size:15px;letter-spacing:.5px}.title span{display:block;margin-top:5px;color:#555}.ord{border-left:1px solid #bbb}.body{display:grid;grid-template-columns:180px 1fr;min-height:0}.info{border-right:1px solid #999;padding:8px}.info h3{font-size:9px;text-transform:uppercase;letter-spacing:.7px;margin:0 0 6px}.kv{border-top:1px solid #ddd;padding:5px 0}.kv span{display:block;color:#777;font-size:7.8px;text-transform:uppercase}.kv b{display:block;font-size:9.3px;margin-top:1px;overflow-wrap:anywhere}.drawing{padding:4px 8px;display:flex;align-items:center;justify-content:center;min-height:0}.drawing svg{width:100%;height:100%;max-height:7.8in}.foot{border-top:1px solid #999;padding:6px 8px}.foot table{width:100%;border-collapse:collapse;font-size:7.9px}.foot th,.foot td{border:1px solid #bbb;padding:3px 4px;text-align:left;vertical-align:top}.foot th{background:#f1f1f1}.note{font-size:7.5px;color:#555;margin-top:4px}</style></head><body><div class="sheet"><div class="head"><div class="brand"><b>'+esc(company||'GLASS CONFIGURATOR')+'</b><span>Production specification</span></div><div class="title"><b>GLASS FABRICATION DRAWING</b><span>'+esc(project||'Project not specified')+' · '+esc(shapeLabel(S.shape.type))+'</span></div><div class="ord"><b>Order '+esc(ord||'—')+'</b><span>PO '+esc(po||'—')+'</span><span>Line '+(SHAPE_UI.line+1)+' · Mark '+esc(S.mark||'—')+'</span></div></div><div class="body"><aside class="info"><h3>Glass information</h3><div class="kv"><span>Quantity</span><b>'+esc(S.qty||'—')+'</b></div><div class="kv"><span>Overall envelope</span><b>'+esc(dimIn(ow))+' × '+esc(dimIn(oh))+'</b></div><div class="kv"><span>Shape</span><b>'+esc(shapeLabel(S.shape.type))+'</b></div><div class="kv"><span>Edgework</span><b>'+esc(S.shape.edgework)+'</b></div><div class="kv"><span>Make-up</span><b>'+esc(muText)+'</b></div><div class="kv"><span>Area / piece</span><b>'+(area/144).toFixed(2)+' sq-ft</b></div><div class="kv"><span>Drill holes</span><b>'+S.shape.holes.length+'</b></div><div class="kv"><span>Hardware</span><b>'+S.shape.hardware.length+'</b></div><div class="kv"><span>Datum</span><b>Lower-left · X→Right · Y→Up</b></div></aside><main class="drawing">'+fabShopSvg(S)+'</main></div><div class="foot"><table><thead><tr><th>ID</th><th>Type</th><th>Template / label</th><th>Reference</th><th>Fabrication</th></tr></thead><tbody>'+fabScheduleHTML(S)+'</tbody></table><div class="note">Hardware cutouts: '+(FAB_CUTOUT_MODE==='merge'?'merged into the glass outline (GLASS_OUTLINE is the cut path)':'separate HARDWARE_CUTOUT layer (GLASS_OUTLINE is the un-notched blank)')+'. Verify approved hardware drawings, glass fabrication limits, tolerances, edge distances, tempering rules and CNC/tool compensation before release. Drawing and DXF use the same canonical fabrication geometry.</div></div></div><script>window.onload=function(){setTimeout(function(){window.print()},250)}<\/script></body></html>');win.document.close();}
+function printShapeProduction(){var S=shapeLine();if(!S)return;var mi=muOfLine(SHAPE_UI.line+1),G=shapeGeometry(S),area=shapeArea(G,S),mu=mus[mi];if(!G.ok){alert(G.error);return;}var win=window.open('','_blank','width=950,height=1200');if(!win)return alert('Pop-up blocked. Allow pop-ups to print the production drawing.');var muText=markStr(mu,mi),company=(document.getElementById('company')||{}).value||'',po=(document.getElementById('po')||{}).value||'',ord=(document.getElementById('orderNo')||{}).value||'',ow=(G.maxX==null?G.W:G.maxX)-(G.minX==null?0:G.minX),oh=(G.maxY==null?G.H:G.maxY)-(G.minY==null?0:G.minY);win.document.write('<!doctype html><html><head><meta charset="utf-8"><title>Glass Drawing '+esc(S.mark||('Line '+(SHAPE_UI.line+1)))+'</title><style>@page{size:Letter landscape;margin:7mm}*{box-sizing:border-box}body{font:9.5px/1.25 Arial;margin:0;color:#111}.sheet{height:7.85in;border:1px solid #a8a8a8;display:grid;grid-template-rows:auto 1fr auto}.head{display:grid;grid-template-columns:150px 1fr 190px;border-bottom:1px solid #999;min-height:66px}.brand,.title,.ord{padding:8px}.brand{border-right:1px solid #bbb}.brand b{font-size:22px;letter-spacing:.4px;font-weight:800}.brand span,.ord span{display:block;color:#666;font-size:10px;margin-top:4px}.ord b{display:block;font-size:22px;line-height:1.05;font-weight:800;color:#111}.title{text-align:center}.title b{font-size:15px;letter-spacing:.5px}.title span{display:block;margin-top:5px;color:#555}.ord{border-left:1px solid #bbb}.body{display:grid;grid-template-columns:180px 1fr;min-height:0}.info{border-right:1px solid #999;padding:8px}.info h3{font-size:9px;text-transform:uppercase;letter-spacing:.7px;margin:0 0 6px}.kv{border-top:1px solid #ddd;padding:5px 0}.kv span{display:block;color:#777;font-size:7.8px;text-transform:uppercase}.kv b{display:block;font-size:9.3px;margin-top:1px;overflow-wrap:anywhere}.drawing{padding:4px 8px;display:flex;align-items:center;justify-content:center;min-height:0}.drawing svg{width:100%;height:100%;max-height:5.45in}.foot{border-top:1px solid #999;padding:6px 8px}.foot table{width:100%;border-collapse:collapse;font-size:7.9px}.foot th,.foot td{border:1px solid #bbb;padding:3px 4px;text-align:left;vertical-align:top}.foot th{background:#fff}.note{font-size:7.5px;color:#555;margin-top:4px}</style></head><body><div class="sheet"><div class="head"><div class="brand"><b>'+esc(company||'GLASS CONFIGURATOR')+'</b><span>Production specification</span><span>PO '+esc(po||'—')+'</span></div><div class="title"><b>GLASS FABRICATION DRAWING</b><span>'+esc(shapeLabel(S.shape.type))+'</span></div><div class="ord"><b>Order '+esc(ord||'—')+'</b><span>PO '+esc(po||'—')+'</span><span>Line '+(SHAPE_UI.line+1)+' · Mark '+esc(S.mark||'—')+'</span></div></div><div class="body"><aside class="info"><h3>Glass information</h3><div class="kv"><span>Quantity</span><b>'+esc(S.qty||'—')+'</b></div><div class="kv"><span>Overall envelope</span><b>'+esc(dimIn(ow))+' × '+esc(dimIn(oh))+'</b></div><div class="kv"><span>Shape</span><b>'+esc(shapeLabel(S.shape.type))+'</b></div><div class="kv"><span>Edgework</span><b>'+esc(S.shape.edgework)+'</b></div><div class="kv"><span>Make-up</span><b>'+esc(muText)+'</b></div><div class="kv"><span>Area / piece</span><b>'+(area/144).toFixed(2)+' sq-ft</b></div><div class="kv"><span>Drill holes</span><b>'+S.shape.holes.length+'</b></div><div class="kv"><span>Hardware</span><b>'+S.shape.hardware.length+'</b></div><div class="kv"><span>Datum</span><b>Lower-left · X→Right · Y→Up</b></div></aside><main class="drawing">'+fabShopSvg(S)+'</main></div><div class="foot"><table><thead><tr><th>ID</th><th>Type</th><th>Template / label</th><th>Reference</th><th>Fabrication</th></tr></thead><tbody>'+fabScheduleHTML(S)+'</tbody></table><div class="note">Hardware cutouts: '+(FAB_CUTOUT_MODE==='merge'?'merged into the glass outline (GLASS_OUTLINE is the cut path)':'separate HARDWARE_CUTOUT layer (GLASS_OUTLINE is the un-notched blank)')+'. Verify approved hardware drawings, glass fabrication limits, tolerances, edge distances, tempering rules and CNC/tool compensation before release. Drawing and DXF use the same canonical fabrication geometry.</div></div></div><script>window.onload=function(){setTimeout(function(){window.print()},250)}<\/script></body></html>');win.document.close();}
 fabLoadLibrary();
 
 </script>
